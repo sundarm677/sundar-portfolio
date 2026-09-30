@@ -115,7 +115,7 @@ export default function IDBadge3D() {
                 {/* Circular Mask Inner Wrapper */}
                 <div style={{ width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden', background: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <img
-                    src="/sundar_photo.png?v=fullres2"
+                    src="/sundar_photo.png?v=fullres"
                     alt="Sundar M"
                     className="profile-image"
                     style={{
@@ -124,11 +124,11 @@ export default function IDBadge3D() {
                       borderRadius: '50%',
                       objectFit: 'contain',
                       objectPosition: 'center center',
-                      transform: 'scale(0.88)',
+                      transform: 'scale(1.07)',
                       display: 'block',
                       backgroundColor: '#FFFFFF',
                       imageRendering: '-webkit-optimize-contrast',
-                      filter: 'contrast(1.02) brightness(1.01) saturate(1.03)',
+                      filter: 'contrast(1.03) brightness(1.02) saturate(1.04)',
                       backfaceVisibility: 'hidden',
                       WebkitBackfaceVisibility: 'hidden',
                     }}

@@ -453,7 +453,7 @@ input::placeholder, textarea::placeholder {
   border-radius: 50%;
   object-fit: contain;
   object-position: center center;
-  transform: scale(1.14);
+  transform: scale(1.07);
   display: block;
   background-color: #FFFFFF;
 }
