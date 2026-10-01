@@ -206,8 +206,6 @@ export default function AvatarGuide({ hoverState }) {
     }
   }, [hoverState]);
 
-  const skillBadges = ['Java', 'Python', 'SQL', 'HTML5', 'CSS3', 'JS'];
-
   return (
     <div
       ref={avatarRef}
@@ -274,42 +272,6 @@ export default function AvatarGuide({ hoverState }) {
           pointerEvents: 'auto',
         }}
       >
-        {/* Floating Skill Badges */}
-        {activeStateKey === 'skills' && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '-32px',
-              left: '0px',
-              right: '0px',
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '3px',
-              zIndex: 10,
-              pointerEvents: 'none',
-            }}
-          >
-            {skillBadges.map((badge, idx) => (
-              <span
-                key={badge}
-                className="floating-tech-badge"
-                style={{
-                  fontFamily: 'Inter',
-                  fontSize: '8px',
-                  fontWeight: '800',
-                  color: '#1A0F00',
-                  background: '#F59E0B',
-                  padding: '2px 6px',
-                  borderRadius: '999px',
-                  boxShadow: '0 4px 12px rgba(245,158,11,0.4)',
-                  animation: `badgeFloat 2s ease-in-out infinite ${idx * 0.15}s`,
-                }}
-              >
-                {badge}
-              </span>
-            ))}
-          </div>
-        )}
 
         {/* Section Prop Icon */}
         <div style={{ position: 'absolute', top: '4px', right: '-6px', zIndex: 11, pointerEvents: 'none' }}>
