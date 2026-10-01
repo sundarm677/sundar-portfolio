@@ -20,10 +20,10 @@ export default function Navbar({ onOpenResume }) {
         {/* Logo: Sundar.dev */}
         <a
           href="#hero"
-          style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
         >
-          <div style={{ width: '34px', height: '34px', borderRadius: '10px', background: '#F59E0B', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-oxanium)', fontWeight: '800', fontSize: '18px', color: '#1A0F00', boxShadow: '0 0 15px rgba(245, 158, 11, 0.4)' }}>S</div>
-          <span style={{ fontFamily: 'var(--font-sora)', fontWeight: '800', fontSize: '19px', color: '#FFFFFF', letterSpacing: '-0.02em' }}>
+          <div className="nav-logo-box" style={{ width: '34px', height: '34px', borderRadius: '10px', background: '#F59E0B', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-oxanium)', fontWeight: '800', fontSize: '18px', color: '#1A0F00', boxShadow: '0 0 15px rgba(245, 158, 11, 0.4)', flexShrink: 0 }}>S</div>
+          <span className="nav-logo-text" style={{ fontFamily: 'var(--font-sora)', fontWeight: '800', fontSize: '19px', color: '#FFFFFF', letterSpacing: '-0.02em' }}>
             Sundar<span style={{ color: '#F59E0B' }}>.dev</span>
           </span>
         </a>
@@ -44,12 +44,12 @@ export default function Navbar({ onOpenResume }) {
         </nav>
 
         {/* Right Side: Phone + Resume Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <a href="tel:+919360346758" style={{ fontFamily: 'var(--font-mono)', fontWeight: '500', fontSize: '12px', color: '#999999', textDecoration: 'none', display: 'none', letterSpacing: '0.04em' }} className="phone-link">
             +91-9360346758
           </a>
 
-          <button onClick={onOpenResume} className="btn-amber" style={{ padding: '9px 20px', fontSize: '13px', minHeight: '40px' }}>
+          <button onClick={onOpenResume} className="btn-amber nav-resume-btn" style={{ padding: '9px 18px', fontSize: '13px', minHeight: '40px' }}>
             Resume <ArrowRight size={14} />
           </button>
           <button
@@ -109,6 +109,36 @@ export default function Navbar({ onOpenResume }) {
           .nav-inner { height: 64px; }
           .desktop-nav { display: none !important; }
           .mobile-menu-btn { display: flex !important; }
+        }
+        @media (max-width: 480px) {
+          .nav-inner {
+            padding: 0 14px !important;
+          }
+          .nav-logo-text {
+            font-size: 16px !important;
+          }
+          .nav-resume-btn {
+            padding: 7px 14px !important;
+            font-size: 12px !important;
+            min-height: 36px !important;
+          }
+          .mobile-menu-btn {
+            width: 38px !important;
+            height: 38px !important;
+          }
+        }
+        @media (max-width: 360px) {
+          .nav-logo-box {
+            width: 28px !important;
+            height: 28px !important;
+            font-size: 15px !important;
+          }
+          .nav-logo-text {
+            font-size: 15px !important;
+          }
+          .nav-resume-btn span {
+            display: none !important;
+          }
         }
       `}</style>
     </header>

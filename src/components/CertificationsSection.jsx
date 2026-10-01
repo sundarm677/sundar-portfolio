@@ -71,8 +71,8 @@ export default function CertificationsSection() {
               <div
                 key={cert.id}
                 data-avatar-pose={cert.id}
-                className="perspective-1000"
-                style={{ minHeight: '260px', height: '100%', cursor: 'pointer' }}
+                className="perspective-1000 cert-card-container"
+                style={{ height: '100%', cursor: 'pointer' }}
                 onClick={() => toggleFlip(cert.id)}
               >
                 <div
@@ -87,7 +87,7 @@ export default function CertificationsSection() {
                 >
                   {/* FRONT */}
                   <div
-                    className="sage-card backface-hidden"
+                    className="sage-card backface-hidden cert-card-front"
                     style={{
                       position: 'absolute',
                       inset: 0,
@@ -100,13 +100,13 @@ export default function CertificationsSection() {
                       alignItems: 'flex-start',
                     }}
                   >
-                    <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', color: '#F59E0B', flexShrink: 0 }}>
+                    <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', color: '#F59E0B', flexShrink: 0 }}>
                       {cert.symbol}
                     </div>
 
-                    <div style={{ flex: 1 }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '6px' }}>
-                        <h3 style={{ fontFamily: 'var(--font-sora)', fontWeight: '700', fontSize: '17px', color: '#FFFFFF' }}>{cert.title}</h3>
+                        <h3 style={{ fontFamily: 'var(--font-sora)', fontWeight: '700', fontSize: '17px', color: '#FFFFFF', lineHeight: 1.3 }}>{cert.title}</h3>
                         <span className="pill-badge" style={{ background: '#F59E0B', color: '#1A0F00', fontWeight: '800' }}>✓ VERIFIED</span>
                       </div>
                       <p style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: '500', color: '#CCCCCC', marginBottom: '6px' }}>
@@ -125,7 +125,7 @@ export default function CertificationsSection() {
 
                   {/* BACK */}
                   <div
-                    className="sage-card backface-hidden rotate-y-180"
+                    className="sage-card backface-hidden rotate-y-180 cert-card-back"
                     style={{
                       position: 'absolute',
                       inset: 0,
@@ -138,23 +138,23 @@ export default function CertificationsSection() {
                     }}
                   >
                     <div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px', flexWrap: 'wrap', gap: '4px' }}>
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: '700', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                           Credential Modules // {cert.title}
                         </span>
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#999999' }}>ID: {cert.credentialId}</span>
                       </div>
 
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '10px' }}>
+                      <div style={{ display: 'grid', gap: '8px', marginTop: '10px' }} className="cert-module-grid">
                         {cert.modules.map((mod, idx) => (
                           <div key={idx} style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '8px', padding: '8px 12px', fontSize: '12px', color: '#CCCCCC', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-inter)' }}>
-                            <CheckCircle size={12} color="#F59E0B" /> {mod}
+                            <CheckCircle size={12} color="#F59E0B" style={{ flexShrink: 0 }} /> <span>{mod}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '10px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '10px', marginTop: '12px' }}>
                       <span style={{ fontFamily: 'var(--font-inter)', fontSize: '11px', color: '#666666' }}>Issued by {cert.issuer} ({cert.year})</span>
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: '600' }}>
                         <RefreshCw size={10} /> Flip Back
@@ -169,7 +169,34 @@ export default function CertificationsSection() {
       </div>
 
       <style>{`
-        @media (min-width: 768px) { .cert-grid { grid-template-columns: 1fr 1fr !important; } }
+        .cert-card-container {
+          min-height: 270px;
+        }
+        .cert-module-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        @media (min-width: 768px) {
+          .cert-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 640px) {
+          .cert-card-container {
+            min-height: 340px !important;
+          }
+          .cert-card-front {
+            padding: 16px !important;
+          }
+          .cert-card-back {
+            padding: 16px !important;
+          }
+          .cert-module-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+        @media (max-width: 400px) {
+          .cert-card-container {
+            min-height: 380px !important;
+          }
+        }
       `}</style>
     </section>
   );
