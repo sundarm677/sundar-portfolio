@@ -2,39 +2,42 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Sparkles, Code2, Laptop, GraduationCap, Send, Award } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
 
-// 19 Comment-Based Pose Asset Mapping
+// Symmetrical Bidirectional Pose Mapping (Pose 1 to Pose 8 + Hover Variations)
 const COMMENT_POSE_MAP = {
+  hero: { src: '/avatar-hero.png', text: "Hi, I'm Sundar 👋", prop: '👋' },
+  about: { src: '/avatar-about.png', text: "A little about me...", prop: '💡' },
+  skills: { src: '/avatar-skills.png', text: "These are my tools 🚀", prop: '🚀' },
+  projects: { src: '/avatar-projects.png', text: "Check out what I've built →", prop: '📂' },
+  experience: { src: '/avatar-experience.png', text: "Learning by building.", prop: '💼' },
+  education: { src: '/avatar-education.png', text: "Always learning something new 🎓", prop: '🎓' },
+  contact: { src: '/avatar-contact.png', text: "Let's build something together! 👋", prop: '🤝' },
+  thanks: { src: '/avatar-thanks.png', text: "Thanks for visiting! 🚀", prop: '🎉' },
+  
+  // Hover & Contextual Variants
   hi: { src: '/avatar-hi.png', text: "Hi, I'm Sundar 👋", prop: '👋' },
   welcome: { src: '/avatar-welcome.png', text: "Welcome to my portfolio", prop: '✨' },
-  about: { src: '/avatar-about.png', text: "A little about me...", prop: '💡' },
   developer: { src: '/avatar-developer.png', text: "I'm a Software Developer", prop: '⚡' },
   building: { src: '/avatar-building.png', text: "I love building software", prop: '💻' },
-  skills: { src: '/avatar-skills.png', text: "These are my skills 🚀", prop: '🚀' },
   java: { src: '/avatar-java.png', text: "Java is one of my core skills", prop: '☕' },
   problemSolving: { src: '/avatar-problem-solving.png', text: "Let's solve some problems", prop: '🧠' },
-  projects: { src: '/avatar-projects.png', text: "Check out my projects →", prop: '📂' },
   chatbot: { src: '/avatar-chatbot.png', text: "AI Chatbot 🤖", prop: '🤖' },
   ecommerce: { src: '/avatar-ecommerce.png', text: "E-Commerce Website 🛒", prop: '🛒' },
   learning: { src: '/avatar-learning.png', text: "Learning by building", prop: '🔨' },
-  experience: { src: '/avatar-experience.png', text: "My internship experience", prop: '💼' },
-  education: { src: '/avatar-education.png', text: "Always learning something new 🎓", prop: '🎓' },
-  contact: { src: '/avatar-contact.png', text: "Let's connect! 👋", prop: '🤝' },
   github: { src: '/avatar-github.png', text: "Find me on GitHub", prop: '🐙' },
   collaboration: { src: '/avatar-collaboration.png', text: "Let's build something together", prop: '🚀' },
-  thanks: { src: '/avatar-thanks.png', text: "Thanks for visiting! 🚀", prop: '🎉' },
   goodbye: { src: '/avatar-goodbye.png', text: "See you soon! 👋", prop: '👋' },
 };
 
 const POSE_KEYS = Object.keys(COMMENT_POSE_MAP);
 
 export default function AvatarGuide({ hoverState }) {
-  const [activePoseKey, setActivePoseKey] = useState('hi');
-  const [currentPoseSrc, setCurrentPoseSrc] = useState(COMMENT_POSE_MAP.hi.src);
+  const [activePoseKey, setActivePoseKey] = useState('hero');
+  const [currentPoseSrc, setCurrentPoseSrc] = useState(COMMENT_POSE_MAP.hero.src);
   const [nextPoseSrc, setNextPoseSrc] = useState(null);
   const [isCrossfading, setIsCrossfading] = useState(false);
 
-  const [speechText, setSpeechText] = useState(COMMENT_POSE_MAP.hi.text);
-  const [activeProp, setActiveProp] = useState(COMMENT_POSE_MAP.hi.prop);
+  const [speechText, setSpeechText] = useState(COMMENT_POSE_MAP.hero.text);
+  const [activeProp, setActiveProp] = useState(COMMENT_POSE_MAP.hero.prop);
   const [scrollDirection, setScrollDirection] = useState(0);
   const [cursorOffset, setCursorOffset] = useState({ x: 0, y: 0 });
   const [isReducedMotion, setIsReducedMotion] = useState(false);
@@ -44,7 +47,7 @@ export default function AvatarGuide({ hoverState }) {
   const prevScrollY = useRef(0);
   const avatarRef = useRef(null);
 
-  // Preload all 19 pose images on mount
+  // Preload all 8 main poses & variants on mount
   useEffect(() => {
     POSE_KEYS.forEach(key => {
       const img = new Image();
@@ -66,7 +69,7 @@ export default function AvatarGuide({ hoverState }) {
     };
   }, []);
 
-  // Section Observer for data-avatar-pose & scroll direction
+  // Symmetric Bidirectional Scroll Handler (SCROLL UP & SCROLL DOWN)
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -76,34 +79,52 @@ export default function AvatarGuide({ hoverState }) {
       }
       prevScrollY.current = currentScrollY;
 
-      // Bottom footer check
-      const scrollPosition = window.innerHeight + window.scrollY;
-      const threshold = document.documentElement.scrollHeight - 120;
-      if (scrollPosition >= threshold) {
+      // 1. Top of page check -> Hero (Pose 1)
+      if (currentScrollY < 80) {
+        triggerPoseChange('hero');
+        return;
+      }
+
+      // 2. Bottom of page check -> Footer (Pose 8)
+      const scrollPosition = window.innerHeight + currentScrollY;
+      const maxScroll = document.documentElement.scrollHeight - 100;
+      if (scrollPosition >= maxScroll) {
         triggerPoseChange('thanks');
+        return;
+      }
+
+      // 3. Symmetrical Section Distance Evaluator
+      const sections = document.querySelectorAll('[data-avatar-pose]');
+      let closestSection = null;
+      let minDistance = Infinity;
+
+      sections.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        // Distance from section center to 40% viewport height
+        const targetY = window.innerHeight * 0.4;
+        const secCenter = rect.top + rect.height / 2;
+        const dist = Math.abs(secCenter - targetY);
+
+        if (rect.top <= window.innerHeight * 0.65 && rect.bottom >= window.innerHeight * 0.15) {
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestSection = sec;
+          }
+        }
+      });
+
+      if (closestSection && closestSection.dataset.avatarPose) {
+        const poseKey = closestSection.dataset.avatarPose;
+        if (COMMENT_POSE_MAP[poseKey]) {
+          triggerPoseChange(poseKey);
+        }
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
 
-    const sections = document.querySelectorAll('[data-avatar-pose]');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.25) {
-          const poseKey = entry.target.dataset.avatarPose;
-          if (poseKey && COMMENT_POSE_MAP[poseKey]) {
-            triggerPoseChange(poseKey);
-          }
-        }
-      });
-    }, { threshold: [0.25, 0.5, 0.75] });
-
-    sections.forEach(sec => observer.observe(sec));
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      observer.disconnect();
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [activePoseKey]);
 
   // Dual-Layer Crossfade Pose Switcher
@@ -122,10 +143,10 @@ export default function AvatarGuide({ hoverState }) {
       setCurrentPoseSrc(poseObj.src);
       setNextPoseSrc(null);
       setIsCrossfading(false);
-    }, 500); // 500ms smooth crossfade
+    }, 480); // 480ms smooth crossfade
   };
 
-  // Cursor micro-tracking
+  // Cursor micro-tracking (Desktop)
   useEffect(() => {
     if (isMobile || isReducedMotion) return;
 
@@ -148,7 +169,7 @@ export default function AvatarGuide({ hoverState }) {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [isMobile, isReducedMotion]);
 
-  // Contextual hover reactions mapping directly to comment poses
+  // Hover Reaction Context Engine
   useEffect(() => {
     if (hoverState) {
       if (hoverState.type === 'skill') {
@@ -187,7 +208,6 @@ export default function AvatarGuide({ hoverState }) {
         return;
       }
     } else {
-      // Revert to current section pose if hover clears
       const currentObj = COMMENT_POSE_MAP[activePoseKey];
       if (currentObj) {
         setSpeechText(currentObj.text);
@@ -257,7 +277,7 @@ export default function AvatarGuide({ hoverState }) {
         />
       </div>
 
-      {/* Main Avatar Frame */}
+      {/* Main Avatar Character Frame */}
       <div
         className="avatar-character-frame"
         onMouseEnter={() => setIsHovered(true)}
@@ -272,7 +292,7 @@ export default function AvatarGuide({ hoverState }) {
           transition: isReducedMotion ? 'none' : 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
-        {/* Floating Skill Badges */}
+        {/* Floating Skill Badges (Skills Section) */}
         {activePoseKey === 'skills' && (
           <div
             style={{
@@ -355,7 +375,7 @@ export default function AvatarGuide({ hoverState }) {
               objectFit: 'contain',
               opacity: isCrossfading ? 0 : 1,
               transform: isCrossfading ? 'translateY(-6px)' : 'translateY(0px)',
-              transition: 'opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+              transition: 'opacity 0.48s cubic-bezier(0.22, 1, 0.36, 1), transform 0.48s cubic-bezier(0.22, 1, 0.36, 1)',
               animation: isReducedMotion ? 'none' : 'avatarIdleFloat 4s ease-in-out infinite',
             }}
           />
@@ -374,7 +394,7 @@ export default function AvatarGuide({ hoverState }) {
                 objectFit: 'contain',
                 opacity: isCrossfading ? 1 : 0,
                 transform: isCrossfading ? 'translateY(0px)' : 'translateY(8px)',
-                transition: 'opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+                transition: 'opacity 0.48s cubic-bezier(0.22, 1, 0.36, 1), transform 0.48s cubic-bezier(0.22, 1, 0.36, 1)',
               }}
             />
           )}
