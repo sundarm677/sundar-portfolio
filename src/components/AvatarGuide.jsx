@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Laptop, Code2, Award, GraduationCap, Send } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
-// 12 Section-Aware Mascot Avatar States
+// Section & Coursework-Aware Mascot Avatar States
 const AVATAR_STATES = {
   hero: {
     pose: 'wave',
@@ -24,7 +24,7 @@ const AVATAR_STATES = {
   projects: {
     pose: 'pointing',
     image: '/avatar-pointing.png',
-    message: "Check out what I've built →",
+    message: "Check out what I've built 🚀",
     prop: '📂',
   },
   chatbot: {
@@ -36,13 +36,19 @@ const AVATAR_STATES = {
   ecommerce: {
     pose: 'shopping',
     image: '/avatar-shopping.png',
-    message: "Built with HTML, CSS & JavaScript 🛒",
+    message: "Built with HTML, CSS & JS 🛒",
     prop: '🛒',
+  },
+  library: {
+    pose: 'reading',
+    image: '/avatar-reading.png',
+    message: "Java HashMap & Exception system 📚",
+    prop: '☕',
   },
   experience: {
     pose: 'professional',
     image: '/avatar-professional.png',
-    message: "Learning by building.",
+    message: "Learning by building 💼",
     prop: '💼',
   },
   education: {
@@ -50,6 +56,30 @@ const AVATAR_STATES = {
     image: '/avatar-reading.png',
     message: "Always learning something new 🎓",
     prop: '🎓',
+  },
+  'java-oop': {
+    pose: 'coding',
+    image: '/avatar-coding.png',
+    message: "Java is one of my core skills ☕",
+    prop: '☕',
+  },
+  dbms: {
+    pose: 'reading',
+    image: '/avatar-reading.png',
+    message: "Working with data & SQL 🗄️",
+    prop: '🗄️',
+  },
+  ds: {
+    pose: 'thinking',
+    image: '/avatar-thinking.png',
+    message: "Let's solve problems! 🧠",
+    prop: '🧠',
+  },
+  'web-tech': {
+    pose: 'pointing',
+    image: '/avatar-pointing.png',
+    message: "Building for the web 🌐",
+    prop: '🌐',
   },
   contact: {
     pose: 'wave-point',
@@ -96,11 +126,13 @@ export default function AvatarGuide({ hoverState }) {
 
   const avatarRef = useRef(null);
 
-  // Preload all 12 pose PNG images on mount
+  // Preload all pose PNG images on mount
   useEffect(() => {
     POSE_ASSET_KEYS.forEach(key => {
-      const img = new Image();
-      img.src = AVATAR_STATES[key].image;
+      if (AVATAR_STATES[key]?.image) {
+        const img = new Image();
+        img.src = AVATAR_STATES[key].image;
+      }
     });
 
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -141,7 +173,7 @@ export default function AvatarGuide({ hoverState }) {
     }, 500); // 500ms smooth crossfade
   };
 
-  // Section Observer (threshold: 0.45)
+  // Section Observer (threshold: 0.35)
   useEffect(() => {
     const handleScroll = () => {
       // Bottom footer check
@@ -157,7 +189,7 @@ export default function AvatarGuide({ hoverState }) {
     const sections = document.querySelectorAll('[data-avatar-pose]');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
           const poseKey = entry.target.dataset.avatarPose;
           const targetKey = poseKey === 'thanks' ? 'footer' : poseKey;
           if (targetKey && AVATAR_STATES[targetKey]) {
@@ -165,7 +197,7 @@ export default function AvatarGuide({ hoverState }) {
           }
         }
       });
-    }, { threshold: [0.35, 0.45, 0.6] });
+    }, { threshold: [0.3, 0.45, 0.6] });
 
     sections.forEach(sec => observer.observe(sec));
 
@@ -181,6 +213,7 @@ export default function AvatarGuide({ hoverState }) {
       if (hoverState.type === 'project') {
         if (hoverState.id === 'chatbot') setAvatarState('chatbot');
         else if (hoverState.id === 'ecommerce') setAvatarState('ecommerce');
+        else if (hoverState.id === 'library') setAvatarState('library');
         return;
       }
       if (hoverState.type === 'contact') {
@@ -209,55 +242,63 @@ export default function AvatarGuide({ hoverState }) {
   return (
     <div
       ref={avatarRef}
-      className={`avatar-mascot ${isMobile ? 'avatar-mobile' : ''}`}
+      className={`avatar-mascot ${isMobile ? 'mobile-mascot' : ''}`}
       style={{
         position: 'fixed',
         bottom: isMobile ? '18px' : '28px',
-        left: isMobile ? '16px' : '28px',
+        right: isMobile ? '16px' : 'auto',
+        left: isMobile ? 'auto' : '28px',
         zIndex: 99,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         pointerEvents: 'none',
       }}
     >
-      {/* Speech Bubble (Placed Above Mascot) */}
+      {/* Speech Bubble (Attached Above Mascot) */}
       <div
-        className="avatar-speech-bubble"
+        className="avatar-speech"
         style={{
-          background: 'linear-gradient(135deg, #1E1E1E 0%, #151515 100%)',
-          border: '1.5px solid #F59E0B',
-          borderRadius: '16px',
-          padding: isMobile ? '8px 12px' : '10px 16px',
+          position: isMobile ? 'absolute' : 'relative',
+          bottom: isMobile ? '100%' : 'auto',
+          left: isMobile ? '50%' : 'auto',
+          transform: isMobile ? 'translateX(-50%)' : 'none',
+          marginBottom: isMobile ? '8px' : '10px',
+          width: isMobile ? 'max-content' : 'auto',
+          maxWidth: isMobile ? 'min(220px, calc(100vw - 80px))' : '240px',
+          padding: isMobile ? '10px 14px' : '10px 16px',
           color: '#FFFFFF',
-          fontFamily: 'Inter, sans-serif',
-          fontSize: isMobile ? '11px' : '13px',
-          fontWeight: '700',
-          boxShadow: '0 12px 30px rgba(0,0,0,0.6), 0 0 20px rgba(245, 158, 11, 0.25)',
-          marginBottom: '10px',
-          maxWidth: isMobile ? '220px' : '240px',
-          position: 'relative',
-          pointerEvents: 'none',
-          animation: 'bubblePulse 3s ease-in-out infinite',
-          backdropFilter: 'blur(10px)',
+          fontFamily: 'var(--font-inter), sans-serif',
+          fontSize: isMobile ? '13px' : '13px',
+          lineHeight: isMobile ? '1.35' : '1.5',
+          fontWeight: '600',
+          background: 'rgba(18, 18, 18, 0.95)',
+          border: '1px solid rgba(245, 158, 11, 0.8)',
+          borderRadius: '16px',
+          boxShadow: '0 12px 30px rgba(0,0,0,0.7), 0 0 20px rgba(245, 158, 11, 0.25)',
+          backdropFilter: 'blur(12px)',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
+          textAlign: 'center',
+          pointerEvents: 'none',
+          animation: 'bubblePulse 3s ease-in-out infinite',
         }}
       >
-        <Sparkles size={13} color="#F59E0B" className="animate-spin-slow" />
+        <Sparkles size={12} color="#F59E0B" className="animate-spin-slow" style={{ flexShrink: 0 }} />
         <span>{speechText}</span>
         <div
+          className="speech-arrow"
           style={{
             position: 'absolute',
-            bottom: '-7px',
-            left: '28px',
-            width: '12px',
-            height: '12px',
-            background: '#151515',
-            borderRight: '1.5px solid #F59E0B',
-            borderBottom: '1.5px solid #F59E0B',
-            transform: 'rotate(45deg)',
+            bottom: '-5px',
+            left: '50%',
+            transform: 'translateX(-50%) rotate(45deg)',
+            width: '9px',
+            height: '9px',
+            background: '#121212',
+            borderRight: '1px solid rgba(245, 158, 11, 0.8)',
+            borderBottom: '1px solid rgba(245, 158, 11, 0.8)',
           }}
         />
       </div>
@@ -267,15 +308,15 @@ export default function AvatarGuide({ hoverState }) {
         className="avatar-character-frame"
         style={{
           position: 'relative',
-          width: isMobile ? '85px' : '135px',
-          height: isMobile ? '95px' : '155px',
+          width: isMobile ? '90px' : '135px',
+          height: isMobile ? '105px' : '155px',
           pointerEvents: 'auto',
         }}
       >
 
         {/* Section Prop Icon */}
         <div style={{ position: 'absolute', top: '4px', right: '-6px', zIndex: 11, pointerEvents: 'none' }}>
-          <div className="floating-prop-icon" style={{ background: '#F59E0B', color: '#1A0F00', padding: '5px', borderRadius: '50%', boxShadow: '0 0 10px rgba(245,158,11,0.5)' }}>
+          <div className="floating-prop-icon" style={{ background: '#F59E0B', color: '#1A0F00', padding: '5px', borderRadius: '50%', boxShadow: '0 0 10px rgba(245,158,11,0.5)', fontSize: '12px' }}>
             {activeProp}
           </div>
         </div>

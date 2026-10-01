@@ -135,6 +135,7 @@ export default function WorkSection({ onProjectHover, onProjectLeave }) {
               <Card3D>
                 <SpotlightCard>
                   <div
+                    data-avatar-pose={p.id}
                     className="surface-card hover-lift"
                     onMouseEnter={() => onProjectHover && onProjectHover(p)}
                     onMouseLeave={() => onProjectLeave && onProjectLeave()}

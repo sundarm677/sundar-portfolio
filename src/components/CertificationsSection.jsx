@@ -70,6 +70,7 @@ export default function CertificationsSection() {
             return (
               <div
                 key={cert.id}
+                data-avatar-pose={cert.id}
                 className="perspective-1000"
                 style={{ minHeight: '260px', height: '100%', cursor: 'pointer' }}
                 onClick={() => toggleFlip(cert.id)}

@@ -581,16 +581,53 @@ input::placeholder, textarea::placeholder {
   pointer-events: none;
 }
 
+/* ── Mobile Mascot & Speech Bubble Controls ── */
 @media (max-width: 768px) {
-  .avatar-mascot {
-    left: 16px !important;
+  .avatar-mascot, .mobile-mascot {
+    position: fixed !important;
+    right: 16px !important;
+    left: auto !important;
     bottom: 18px !important;
-  }
-  .avatar-speech-bubble {
-    max-width: 220px !important;
-    font-size: 11px !important;
-    padding: 8px 12px !important;
+    z-index: 99 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     pointer-events: none !important;
+  }
+
+  .avatar-mascot img, .avatar-character-frame {
+    pointer-events: auto !important;
+  }
+
+  .avatar-speech, .avatar-speech-bubble {
+    position: absolute !important;
+    left: 50% !important;
+    bottom: 100% !important;
+    transform: translateX(-50%) !important;
+    margin-bottom: 8px !important;
+    width: max-content !important;
+    max-width: calc(100vw - 80px) !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+    font-weight: 600 !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(245, 158, 11, 0.8) !important;
+    background: rgba(18, 18, 18, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .avatar-speech, .avatar-speech-bubble {
+    max-width: 190px !important;
+    font-size: 12px !important;
+    padding: 9px 12px !important;
+  }
+
+  .avatar-character-frame {
+    width: 78px !important;
+    height: 88px !important;
   }
 }
 
