@@ -245,6 +245,13 @@ section {
 }
 
 /* ── Badges & Tags ── */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+
 .pill-badge {
   display: inline-flex;
   align-items: center;
@@ -258,6 +265,7 @@ section {
   padding: 4px 12px;
   border-radius: var(--radius-pill);
   text-transform: uppercase;
+  flex-shrink: 0;
 }
 
 .pill-mono-tag {
@@ -267,11 +275,15 @@ section {
   background-color: rgba(245, 158, 11, 0.08);
   border: 1px solid rgba(245, 158, 11, 0.3);
   color: #F59E0B;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter), sans-serif;
   font-size: 12px;
   font-weight: 600;
   padding: 4px 12px;
   border-radius: var(--radius-pill);
+  flex: 0 1 auto;
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-word;
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 .pill-mono-tag:hover {

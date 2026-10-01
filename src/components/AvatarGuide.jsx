@@ -140,13 +140,20 @@ export default function AvatarGuide({ hoverState }) {
     const handleMotionChange = (e) => setIsReducedMotion(e.matches);
     motionQuery.addEventListener('change', handleMotionChange);
 
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
+    let resizeTimer;
+    const checkMobile = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        setIsMobile(window.innerWidth < 768);
+      }, 100);
+    };
+    setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', checkMobile);
 
     return () => {
       motionQuery.removeEventListener('change', handleMotionChange);
       window.removeEventListener('resize', checkMobile);
+      clearTimeout(resizeTimer);
     };
   }, []);
 
@@ -173,23 +180,12 @@ export default function AvatarGuide({ hoverState }) {
     }, 500); // 500ms smooth crossfade
   };
 
-  // Section Observer (threshold: 0.35)
+  // Pure Native IntersectionObserver for zero main-thread scroll JS overhead
   useEffect(() => {
-    const handleScroll = () => {
-      // Bottom footer check
-      const scrollPosition = window.innerHeight + window.scrollY;
-      const maxScroll = document.documentElement.scrollHeight - 120;
-      if (scrollPosition >= maxScroll) {
-        setAvatarState('footer');
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
     const sections = document.querySelectorAll('[data-avatar-pose]');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
           const poseKey = entry.target.dataset.avatarPose;
           const targetKey = poseKey === 'thanks' ? 'footer' : poseKey;
           if (targetKey && AVATAR_STATES[targetKey]) {
@@ -197,12 +193,11 @@ export default function AvatarGuide({ hoverState }) {
           }
         }
       });
-    }, { threshold: [0.3, 0.45, 0.6] });
+    }, { threshold: [0.25, 0.45] });
 
     sections.forEach(sec => observer.observe(sec));
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
     };
   }, []);
