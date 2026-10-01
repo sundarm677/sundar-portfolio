@@ -14,12 +14,13 @@ import ParticleCirculationCanvas from './components/ParticleCirculationCanvas';
 import CustomCursor from './components/CustomCursor';
 import FloatingScrollNav from './components/FloatingScrollNav';
 import ScrollParallaxMarquee from './components/ScrollParallaxMarquee';
-
 import SmoothLoader from './components/SmoothLoader';
+import AvatarGuide from './components/AvatarGuide';
 
 export default function App() {
   const [resumeOpen, setResumeOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [avatarHoverState, setAvatarHoverState] = useState(null);
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-page)', position: 'relative' }}>
@@ -35,6 +36,9 @@ export default function App() {
       {/* Floating Section Progress Scroll Indicator (Right Edge) */}
       <FloatingScrollNav />
 
+      {/* Interactive 3D Avatar Companion Guide (Bottom Left) */}
+      <AvatarGuide hoverState={avatarHoverState} />
+
       {/* Pure Particle Circulation Canvas Background */}
       <ParticleCirculationCanvas />
 
@@ -48,16 +52,16 @@ export default function App() {
         {/* Scroll Velocity Parallax Kinetic Text Marquee */}
         <ScrollParallaxMarquee text="SOFTWARE DEVELOPER · JAVA DEVELOPER · CORE JAVA · PYTHON · SQL · MYSQL ·" direction={1} />
 
-        <WorkSection />
+        <WorkSection onProjectHover={(project) => setAvatarHoverState({ type: 'project', ...project })} onProjectLeave={() => setAvatarHoverState(null)} />
         <AboutSection />
-        <SkillMeterSection />
+        <SkillMeterSection onSkillHover={(skill) => setAvatarHoverState({ type: 'skill', name: skill })} onSkillLeave={() => setAvatarHoverState(null)} />
 
         {/* Reverse Parallax Kinetic Text Marquee */}
         <ScrollParallaxMarquee text="HTML5 & CSS3 · JAVASCRIPT · RESPONSIVE WEB DESIGN · OOP ARCHITECTURE · GIT & GITHUB ·" direction={-1} />
 
-        <ExperienceSection />
+        <ExperienceSection onExperienceHover={(exp) => setAvatarHoverState({ type: 'experience', ...exp })} onExperienceLeave={() => setAvatarHoverState(null)} />
         <CertificationsSection />
-        <ContactSection onOpenResume={() => setResumeOpen(true)} />
+        <ContactSection onOpenResume={() => setResumeOpen(true)} onContactHover={(item) => setAvatarHoverState({ type: 'contact', id: item })} onContactLeave={() => setAvatarHoverState(null)} />
       </main>
 
       {/* Resume Modal */}
@@ -65,3 +69,4 @@ export default function App() {
     </div>
   );
 }
+

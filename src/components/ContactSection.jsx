@@ -4,7 +4,7 @@ import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import confetti from 'canvas-confetti';
 import Toast from './Toast';
 
-export default function ContactSection({ onOpenResume }) {
+export default function ContactSection({ onOpenResume, onContactHover, onContactLeave }) {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [sent, setSent] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -102,7 +102,11 @@ export default function ContactSection({ onOpenResume }) {
                 </div>
 
                 {/* Email */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div
+                  style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+                  onMouseEnter={() => onContactHover && onContactHover('email')}
+                  onMouseLeave={() => onContactLeave && onContactLeave()}
+                >
                   <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <Mail size={15} color="#F59E0B" />
                   </div>
@@ -121,15 +125,27 @@ export default function ContactSection({ onOpenResume }) {
             <div className="sage-card" style={{ background: '#1E1E1E', border: '1px solid #2A2A2A', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <a href="https://github.com/sundarm677" target="_blank" rel="noopener noreferrer"
                 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'Inter', fontSize: '13px', fontWeight: '500', color: '#CCCCCC', textDecoration: 'none', flex: 1, minWidth: '120px', padding: '10px', borderRadius: '10px', background: '#151515', border: '1px solid #2A2A2A', transition: 'all 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#F59E0B'; e.currentTarget.style.color = '#F59E0B'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#CCCCCC'; }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = '#F59E0B'; e.currentTarget.style.color = '#F59E0B';
+                  if (onContactHover) onContactHover('github');
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#CCCCCC';
+                  if (onContactLeave) onContactLeave();
+                }}
               >
                 <GithubIcon style={{ width: '18px', height: '18px', flexShrink: 0 }} /> GitHub
               </a>
               <a href="https://www.linkedin.com/in/sundar-2k5" target="_blank" rel="noopener noreferrer"
                 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'Inter', fontSize: '13px', fontWeight: '500', color: '#CCCCCC', textDecoration: 'none', flex: 1, minWidth: '120px', padding: '10px', borderRadius: '10px', background: '#151515', border: '1px solid #2A2A2A', transition: 'all 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#F59E0B'; e.currentTarget.style.color = '#F59E0B'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#CCCCCC'; }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = '#F59E0B'; e.currentTarget.style.color = '#F59E0B';
+                  if (onContactHover) onContactHover('linkedin');
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#CCCCCC';
+                  if (onContactLeave) onContactLeave();
+                }}
               >
                 <LinkedinIcon style={{ width: '18px', height: '18px', flexShrink: 0 }} /> LinkedIn
               </a>

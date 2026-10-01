@@ -44,7 +44,7 @@ const projects = [
   },
 ];
 
-export default function WorkSection() {
+export default function WorkSection({ onProjectHover, onProjectLeave }) {
   const [filter, setFilter] = useState('all');
   const [activeProject, setActiveProject] = useState(null);
   const [demoState, setDemoState] = useState({ query: '', response: null, loading: false, cartItems: 2, consoleLogs: [] });
@@ -136,6 +136,8 @@ export default function WorkSection() {
                 <SpotlightCard>
                   <div
                     className="surface-card hover-lift"
+                    onMouseEnter={() => onProjectHover && onProjectHover(p)}
+                    onMouseLeave={() => onProjectLeave && onProjectLeave()}
                     style={{ background: '#1E1E1E', border: '1px solid #2A2A2A', display: 'grid', gap: '32px', alignItems: 'start', cursor: 'default' }}
                   >
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '24px', alignItems: 'start' }} className="proj-inner">

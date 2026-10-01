@@ -20,7 +20,7 @@ const experiences = [
   },
 ];
 
-export default function ExperienceSection() {
+export default function ExperienceSection({ onExperienceHover, onExperienceLeave }) {
   return (
     <section id="experience">
       <div className="section-wrap">
@@ -30,14 +30,24 @@ export default function ExperienceSection() {
         </ScrollReveal>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {experiences.map((exp, i) => (
-            <ScrollReveal key={i} animation="fade-up" delay={150 * (i + 1)}>
-              <div
-                className="surface-card"
-                style={{ background: '#1E1E1E', border: '1px solid #2A2A2A', borderLeft: '3px solid #F59E0B', display: 'grid', gap: '32px', transition: 'transform 0.25s ease, border-color 0.25s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.borderColor = '#F59E0B'; }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = '#2A2A2A'; }}
-              >
+          {experiences.map((exp, i) => {
+            const expId = exp.org.includes('Think Bright') ? 'thinkbright' : 'besant';
+            return (
+              <ScrollReveal key={i} animation="fade-up" delay={150 * (i + 1)}>
+                <div
+                  className="surface-card"
+                  style={{ background: '#1E1E1E', border: '1px solid #2A2A2A', borderLeft: '3px solid #F59E0B', display: 'grid', gap: '32px', transition: 'transform 0.25s ease, border-color 0.25s ease' }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.borderColor = '#F59E0B';
+                    if (onExperienceHover) onExperienceHover({ id: expId, name: exp.org });
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.borderColor = '#2A2A2A';
+                    if (onExperienceLeave) onExperienceLeave();
+                  }}
+                >
                 <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '32px', alignItems: 'start' }} className="exp-inner">
                   {/* Left: Org & Period */}
                   <div style={{ minWidth: '200px' }}>
@@ -57,7 +67,8 @@ export default function ExperienceSection() {
                 </div>
               </div>
             </ScrollReveal>
-          ))}
+          );
+        })}
         </div>
       </div>
 

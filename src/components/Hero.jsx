@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import IDBadge3D from './IDBadge3D';
-import MascotAvatar3D from './MascotAvatar3D';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import TypewriterRole from './TypewriterRole';
 import Hero3DSphere from './Hero3DSphere';
@@ -11,8 +10,6 @@ import AnimatedCounter from './AnimatedCounter';
 const techStack = ['Java', 'Python', 'SQL', 'MySQL', 'HTML5', 'CSS3', 'JavaScript', 'Git & GitHub', 'Eclipse', 'VS Code'];
 
 export default function Hero({ onOpenResume }) {
-  const [activeHeroView, setActiveHeroView] = React.useState('mascot');
-
   return (
     <>
       {/* ── Hero Section ───────────────────────────────────── */}
@@ -80,84 +77,26 @@ export default function Hero({ onOpenResume }) {
           </div>
 
           {/* RIGHT COLUMN */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', gap: '16px' }} className="hero-right">
-
-            {/* Interactive View Switcher Tabs */}
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '4px',
-              background: 'rgba(26, 26, 26, 0.95)',
-              border: '1px solid #2A2A2A',
-              borderRadius: '999px',
-              padding: '4px',
-              zIndex: 25,
-              boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-            }}>
-              <button
-                onClick={() => setActiveHeroView('mascot')}
-                style={{
-                  background: activeHeroView === 'mascot' ? '#F59E0B' : 'transparent',
-                  color: activeHeroView === 'mascot' ? '#1A0F00' : '#AAAAAA',
-                  border: 'none',
-                  borderRadius: '999px',
-                  padding: '6px 14px',
-                  fontFamily: 'Inter',
-                  fontSize: '11px',
-                  fontWeight: '800',
-                  letterSpacing: '0.04em',
-                  cursor: 'pointer',
-                  transition: 'all 0.25s ease',
-                  boxShadow: activeHeroView === 'mascot' ? '0 0 14px rgba(245,158,11,0.45)' : 'none',
-                }}
-              >
-                ✦ 3D MASCOT
-              </button>
-              <button
-                onClick={() => setActiveHeroView('idcard')}
-                style={{
-                  background: activeHeroView === 'idcard' ? '#F59E0B' : 'transparent',
-                  color: activeHeroView === 'idcard' ? '#1A0F00' : '#AAAAAA',
-                  border: 'none',
-                  borderRadius: '999px',
-                  padding: '6px 14px',
-                  fontFamily: 'Inter',
-                  fontSize: '11px',
-                  fontWeight: '800',
-                  letterSpacing: '0.04em',
-                  cursor: 'pointer',
-                  transition: 'all 0.25s ease',
-                  boxShadow: activeHeroView === 'idcard' ? '0 0 14px rgba(245,158,11,0.45)' : 'none',
-                }}
-              >
-                ✦ DEV PASS CARD
-              </button>
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', gap: '20px' }} className="hero-right">
 
             {/* Floating Stat Card 1 — 3 — Major Projects Built */}
             <div
               className="sage-card animate-float hero-stat-card-1"
-              style={{ position: 'absolute', top: '10px', right: '-10px', width: '210px', display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 14px', zIndex: 10, background: '#1E1E1E', border: '1px solid #2A2A2A' }}
+              style={{ position: 'absolute', top: '-16px', right: '-10px', width: '220px', display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 16px', zIndex: 10, background: '#1E1E1E', border: '1px solid #2A2A2A' }}
             >
-              <div style={{ width: '34px', height: '34px', borderRadius: '10px', background: '#151515', border: '1px solid rgba(245, 158, 11, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: '#151515', border: '1px solid rgba(245, 158, 11, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
               </div>
               <div>
-                <p style={{ fontFamily: 'Sora', fontWeight: '800', fontSize: '20px', color: '#F59E0B', lineHeight: 1 }}>
+                <p style={{ fontFamily: 'Sora', fontWeight: '800', fontSize: '22px', color: '#F59E0B', lineHeight: 1 }}>
                   <AnimatedCounter target={3} suffix="" decimals={0} />
                 </p>
                 <p style={{ fontFamily: 'Inter', fontSize: '11px', fontWeight: '500', color: '#999999', marginTop: '3px' }}>Major Projects Built</p>
               </div>
             </div>
 
-            {/* Active Display Component */}
-            <div style={{ width: '100%', display: 'flex', justifyContent: 'center', minHeight: '340px', alignItems: 'center' }}>
-              {activeHeroView === 'mascot' ? (
-                <MascotAvatar3D />
-              ) : (
-                <IDBadge3D />
-              )}
-            </div>
+            {/* ID Badge */}
+            <IDBadge3D />
 
             {/* Floating Stat Card 2 — 2 — Internships Completed */}
             <div

@@ -12,9 +12,9 @@ const skillMeters = [
   { name: 'Git, GitHub & Version Control', level: 85 },
 ];
 
-export default function SkillMeterSection() {
+export default function SkillMeterSection({ onSkillHover, onSkillLeave }) {
   return (
-    <section style={{ background: '#0A0A0A', borderTop: '1px solid #2A2A2A' }}>
+    <section id="skills" style={{ background: '#0A0A0A', borderTop: '1px solid #2A2A2A' }}>
       <div className="section-wrap">
         <ScrollReveal animation="fade-down">
           <p className="section-label">Engineering Metrics</p>
@@ -28,7 +28,12 @@ export default function SkillMeterSection() {
             <ScrollReveal key={item.name} animation="zoom-in" delay={80 * (idx + 1)}>
               <Card3D>
                 <SpotlightCard>
-                  <div className="hover-lift" style={{ background: '#1E1E1E', border: '1px solid #2A2A2A', borderRadius: '16px', padding: '20px' }}>
+                  <div
+                    className="hover-lift"
+                    onMouseEnter={() => onSkillHover && onSkillHover(item.name)}
+                    onMouseLeave={() => onSkillLeave && onSkillLeave()}
+                    style={{ background: '#1E1E1E', border: '1px solid #2A2A2A', borderRadius: '16px', padding: '20px' }}
+                  >
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                       <span style={{ fontFamily: 'Sora', fontWeight: '700', fontSize: '15px', color: '#FFFFFF' }}>{item.name}</span>
                       <span style={{ fontFamily: 'Inter', fontWeight: '800', fontSize: '14px', color: '#F59E0B' }}>
