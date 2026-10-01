@@ -33,7 +33,7 @@ export default function ContactSection({ onOpenResume, onContactHover, onContact
   };
 
   return (
-    <footer id="contact" style={{ background: '#151515', borderTop: '1px solid #2A2A2A', position: 'relative' }}>
+    <footer id="contact" data-avatar-pose="contact" style={{ background: '#151515', borderTop: '1px solid #2A2A2A', position: 'relative' }}>
       <Toast message={toastMsg} />
 
       <div className="section-wrap">

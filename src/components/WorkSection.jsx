@@ -81,7 +81,7 @@ export default function WorkSection({ onProjectHover, onProjectLeave }) {
   };
 
   return (
-    <section id="work">
+    <section id="work" data-avatar-pose="projects">
       <div className="section-wrap">
 
         {/* Header */}

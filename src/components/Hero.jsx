@@ -13,7 +13,7 @@ export default function Hero({ onOpenResume }) {
   return (
     <>
       {/* ── Hero Section ───────────────────────────────────── */}
-      <section id="hero" style={{ padding: '72px clamp(24px, 4vw, 48px) 0', maxWidth: 'min(92vw, 1500px)', margin: '0 auto' }}>
+      <section id="hero" data-avatar-pose="hero" style={{ padding: '72px clamp(24px, 4vw, 48px) 0', maxWidth: 'min(92vw, 1500px)', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '60px', alignItems: 'center' }} className="hero-grid">
 
           {/* LEFT COLUMN */}

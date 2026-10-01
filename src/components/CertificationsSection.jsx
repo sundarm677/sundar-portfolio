@@ -56,7 +56,7 @@ export default function CertificationsSection() {
   };
 
   return (
-    <section id="certifications" style={{ background: '#151515' }}>
+    <section id="certifications" data-avatar-pose="education" style={{ background: '#151515' }}>
       <div className="section-wrap">
         <p className="section-label">Academic Foundations</p>
         <h2 style={{ fontSize: 'clamp(28px, 3vw, 44px)', color: '#FFFFFF', marginBottom: '12px' }}>Relevant Coursework</h2>

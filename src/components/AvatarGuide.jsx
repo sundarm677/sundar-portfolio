@@ -1,23 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Sparkles, Code2, Laptop, GraduationCap, Mail, Send, Terminal, ShoppingCart, MessageSquare, Award } from 'lucide-react';
-import { GithubIcon, LinkedinIcon } from './SocialIcons';
+import { Sparkles, Code2, Laptop, GraduationCap, Send, Award } from 'lucide-react';
 
-export default function AvatarGuide({ hoverState, activeSectionOverride }) {
-  const [activeSection, setActiveSection] = useState('hero');
+const POSE_MAP = {
+  hero: '/avatar-hero.png',
+  about: '/avatar-about.png',
+  skills: '/avatar-skills.png',
+  projects: '/avatar-projects.png',
+  experience: '/avatar-experience.png',
+  education: '/avatar-education.png',
+  contact: '/avatar-contact.png',
+  thanks: '/avatar-thanks.png',
+};
+
+const POSE_LIST = Object.keys(POSE_MAP);
+
+export default function AvatarGuide({ hoverState }) {
+  const [activePoseKey, setActivePoseKey] = useState('hero');
+  const [currentPoseSrc, setCurrentPoseSrc] = useState(POSE_MAP.hero);
+  const [nextPoseSrc, setNextPoseSrc] = useState(null);
+  const [isCrossfading, setIsCrossfading] = useState(false);
+
   const [speechText, setSpeechText] = useState("Hi, I'm Sundar 👋");
-  const [isWaving, setIsWaving] = useState(true);
-  const [isHovered, setIsHovered] = useState(false);
-  const [scrollDirection, setScrollDirection] = useState(0); // -1 up, 1 down
+  const [scrollDirection, setScrollDirection] = useState(0);
   const [cursorOffset, setCursorOffset] = useState({ x: 0, y: 0 });
   const [isReducedMotion, setIsReducedMotion] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const prevScrollY = useRef(0);
-  const animationFrameRef = useRef(null);
   const avatarRef = useRef(null);
 
-  // Check reduced motion & mobile viewport
+  // Preload all 8 avatar pose images on mount
   useEffect(() => {
+    POSE_LIST.forEach(poseKey => {
+      const img = new Image();
+      img.src = POSE_MAP[poseKey];
+    });
+
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     setIsReducedMotion(motionQuery.matches);
     const handleMotionChange = (e) => setIsReducedMotion(e.matches);
@@ -33,60 +52,77 @@ export default function AvatarGuide({ hoverState, activeSectionOverride }) {
     };
   }, []);
 
-  // Section Observer & Bottom Scroll Observer
+  // IntersectionObserver for section detection (data-avatar-pose)
   useEffect(() => {
-    const sectionIds = ['hero', 'about', 'skills', 'work', 'experience', 'certifications', 'contact'];
-    
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const scrollDelta = currentScrollY - prevScrollY.current;
-      
       if (Math.abs(scrollDelta) > 2) {
         setScrollDirection(scrollDelta > 0 ? 1 : -1);
       }
       prevScrollY.current = currentScrollY;
 
-      // Check footer bottom
+      // Check footer bottom position
       const scrollPosition = window.innerHeight + window.scrollY;
       const threshold = document.documentElement.scrollHeight - 120;
       if (scrollPosition >= threshold) {
-        setActiveSection('footer');
+        triggerPoseChange('thanks');
         return;
-      }
-
-      // Check section in view
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= window.innerHeight * 0.2) {
-            setActiveSection(id);
-            break;
-          }
-        }
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial check
 
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    // Observer setup for data-avatar-pose sections
+    const sections = document.querySelectorAll('[data-avatar-pose]');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.25) {
+          const poseKey = entry.target.dataset.avatarPose;
+          if (poseKey && POSE_MAP[poseKey]) {
+            triggerPoseChange(poseKey);
+          }
+        }
+      });
+    }, { threshold: [0.25, 0.5, 0.75] });
 
-  // Cursor micro-tracking (Desktop only)
+    sections.forEach(sec => observer.observe(sec));
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
+  }, [activePoseKey]);
+
+  // Trigger pose change with smooth dual-layer crossfade
+  const triggerPoseChange = (newPoseKey) => {
+    if (newPoseKey === activePoseKey || isCrossfading) return;
+
+    const targetSrc = POSE_MAP[newPoseKey];
+    setNextPoseSrc(targetSrc);
+    setIsCrossfading(true);
+    setActivePoseKey(newPoseKey);
+
+    setTimeout(() => {
+      setCurrentPoseSrc(targetSrc);
+      setNextPoseSrc(null);
+      setIsCrossfading(false);
+    }, 550); // 550ms crossfade duration
+  };
+
+  // Cursor micro-tracking
   useEffect(() => {
     if (isMobile || isReducedMotion) return;
 
     const handleMouseMove = (e) => {
       if (!avatarRef.current) return;
       const rect = avatarRef.current.getBoundingClientRect();
-      const avatarCenterX = rect.left + rect.width / 2;
-      const avatarCenterY = rect.top + rect.height / 2;
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
 
-      const deltaX = (e.clientX - avatarCenterX) / window.innerWidth;
-      const deltaY = (e.clientY - avatarCenterY) / window.innerHeight;
+      const deltaX = (e.clientX - centerX) / window.innerWidth;
+      const deltaY = (e.clientY - centerY) / window.innerHeight;
 
-      // Max 5px translation, max 2deg tilt
       setCursorOffset({
         x: Math.max(-5, Math.min(5, deltaX * 25)),
         y: Math.max(-5, Math.min(5, deltaY * 25)),
@@ -97,9 +133,8 @@ export default function AvatarGuide({ hoverState, activeSectionOverride }) {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [isMobile, isReducedMotion]);
 
-  // Handle active section speech & pose state
+  // Contextual speech bubble text updates
   useEffect(() => {
-    // Override if hover state active
     if (hoverState) {
       if (hoverState.type === 'skill') {
         setSpeechText(`Exploring ${hoverState.name} ⚡`);
@@ -123,88 +158,44 @@ export default function AvatarGuide({ hoverState, activeSectionOverride }) {
       }
       if (hoverState.type === 'experience') {
         if (hoverState.id === 'thinkbright') setSpeechText("Think Bright EdTech — Web Dev");
-        else if (hoverState.id === 'besant') setSpeechText("Besant Tech — Full-Stack Training");
+        else if (hoverState.id === 'besant') setSpeechText("Besant Tech — Full Stack");
         return;
       }
     }
 
-    // Default section messages
-    switch (activeSectionOverride || activeSection) {
+    switch (activePoseKey) {
       case 'hero':
         setSpeechText("Hi, I'm Sundar 👋");
-        setIsWaving(true);
         break;
       case 'about':
         setSpeechText("A little about me...");
-        setIsWaving(false);
         break;
       case 'skills':
         setSpeechText("These are my tools 🚀");
-        setIsWaving(false);
         break;
-      case 'work':
+      case 'projects':
         setSpeechText("Check out what I've built →");
-        setIsWaving(false);
         break;
       case 'experience':
         setSpeechText("Learning by building.");
-        setIsWaving(false);
         break;
-      case 'certifications':
-        setSpeechText("Always learning something new.");
-        setIsWaving(false);
+      case 'education':
+        setSpeechText("Always learning something new 🎓");
         break;
       case 'contact':
         setSpeechText("Let's build something together! 👋");
-        setIsWaving(true);
         break;
-      case 'footer':
+      case 'thanks':
         setSpeechText("Thanks for visiting! 🚀");
-        setIsWaving(true);
         break;
       default:
         setSpeechText("Hi, I'm Sundar 👋");
-        setIsWaving(false);
     }
-  }, [activeSection, hoverState, activeSectionOverride]);
+  }, [activePoseKey, hoverState]);
 
-  // Compute dynamic transform styles based on section & scroll direction
-  const currentSectionKey = activeSectionOverride || activeSection;
-
-  let bodyRotation = scrollDirection * 1.5; // ±1.5° tilt on scroll
+  let bodyRotation = scrollDirection * 1.5;
   if (isReducedMotion) bodyRotation = 0;
 
-  let poseTransform = '';
-  switch (currentSectionKey) {
-    case 'hero':
-      poseTransform = 'translateY(0px) rotate(0deg) scale(1)';
-      break;
-    case 'about':
-      poseTransform = 'rotate(-2deg) scale(1.02) translateY(-2px)'; // Thinking posture tilt
-      break;
-    case 'skills':
-      poseTransform = 'rotate(1.5deg) scale(1.03) translateY(-3px)'; // Developer posture
-      break;
-    case 'work':
-      poseTransform = 'rotate(-1.5deg) scale(1.04) translateY(-2px)'; // Presentation posture
-      break;
-    case 'experience':
-      poseTransform = 'rotate(1deg) scale(1.02) translateY(-1px)'; // Professional posture
-      break;
-    case 'certifications':
-      poseTransform = 'rotate(-1deg) scale(1.01) translateY(-2px)'; // Learning posture
-      break;
-    case 'contact':
-      poseTransform = 'rotate(2deg) scale(1.05) translateY(-4px)'; // Inviting posture
-      break;
-    case 'footer':
-      poseTransform = 'translateY(-8px) scale(1.08) rotate(0deg)'; // Celebration bounce
-      break;
-    default:
-      poseTransform = 'none';
-  }
-
-  // Floating skill badges for Skills Section
   const skillBadges = ['Java', 'Python', 'SQL', 'HTML5', 'CSS3', 'JS'];
 
   return (
@@ -220,10 +211,9 @@ export default function AvatarGuide({ hoverState, activeSectionOverride }) {
         flexDirection: 'column',
         alignItems: 'flex-start',
         pointerEvents: 'none',
-        transition: 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease',
       }}
     >
-      {/* Speech Bubble */}
+      {/* Glossy Speech Bubble */}
       <div
         className="avatar-speech-bubble"
         style={{
@@ -237,7 +227,7 @@ export default function AvatarGuide({ hoverState, activeSectionOverride }) {
           fontWeight: '700',
           boxShadow: '0 12px 30px rgba(0,0,0,0.6), 0 0 20px rgba(245, 158, 11, 0.25)',
           marginBottom: '10px',
-          maxWidth: '230px',
+          maxWidth: '240px',
           position: 'relative',
           pointerEvents: 'auto',
           animation: 'bubblePulse 3s ease-in-out infinite',
@@ -249,8 +239,6 @@ export default function AvatarGuide({ hoverState, activeSectionOverride }) {
       >
         <Sparkles size={14} color="#F59E0B" className="animate-spin-slow" />
         <span>{speechText}</span>
-
-        {/* Pointer Arrow */}
         <div
           style={{
             position: 'absolute',
@@ -266,23 +254,23 @@ export default function AvatarGuide({ hoverState, activeSectionOverride }) {
         />
       </div>
 
-      {/* Main Avatar Character Wrapper */}
+      {/* Main Multi-Pose Dual-Layer Avatar Stage */}
       <div
         className="avatar-character-frame"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={{
           position: 'relative',
-          width: isMobile ? '100px' : '135px',
-          height: isMobile ? '115px' : '150px',
+          width: isMobile ? '110px' : '145px',
+          height: isMobile ? '125px' : '165px',
           cursor: 'pointer',
           pointerEvents: 'auto',
-          transform: `translate(${cursorOffset.x}px, ${cursorOffset.y}px) rotate(${bodyRotation}deg) ${poseTransform}`,
+          transform: `translate(${cursorOffset.x}px, ${cursorOffset.y}px) rotate(${bodyRotation}deg)`,
           transition: isReducedMotion ? 'none' : 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
-        {/* Floating Contextual Badges (Skills Section) */}
-        {currentSectionKey === 'skills' && (
+        {/* Floating Skill Badges (Skills Section) */}
+        {activePoseKey === 'skills' && (
           <div
             style={{
               position: 'absolute',
@@ -292,7 +280,7 @@ export default function AvatarGuide({ hoverState, activeSectionOverride }) {
               display: 'flex',
               flexWrap: 'wrap',
               gap: '4px',
-              zIndex: 3,
+              zIndex: 10,
             }}
           >
             {skillBadges.map((badge, idx) => (
@@ -309,7 +297,6 @@ export default function AvatarGuide({ hoverState, activeSectionOverride }) {
                   borderRadius: '999px',
                   boxShadow: '0 4px 12px rgba(245,158,11,0.4)',
                   animation: `badgeFloat 2s ease-in-out infinite ${idx * 0.15}s`,
-                  opacity: 0.95,
                 }}
               >
                 {badge}
@@ -318,51 +305,19 @@ export default function AvatarGuide({ hoverState, activeSectionOverride }) {
           </div>
         )}
 
-        {/* Floating Icon Badges per section */}
-        <div style={{ position: 'absolute', top: '10px', right: '-10px', zIndex: 4 }}>
-          {currentSectionKey === 'hero' && (
-            <div className="floating-prop-icon" style={{ background: '#F59E0B', color: '#1A0F00', padding: '6px', borderRadius: '50%', boxShadow: '0 0 12px rgba(245,158,11,0.5)' }}>
-              👋
-            </div>
-          )}
-          {currentSectionKey === 'about' && (
-            <div className="floating-prop-icon" style={{ background: '#1E1E1E', border: '1px solid #F59E0B', color: '#F59E0B', padding: '6px', borderRadius: '50%' }}>
-              💡
-            </div>
-          )}
-          {currentSectionKey === 'skills' && (
-            <div className="floating-prop-icon" style={{ background: '#1E1E1E', border: '1px solid #F59E0B', color: '#F59E0B', padding: '6px', borderRadius: '50%' }}>
-              <Laptop size={14} />
-            </div>
-          )}
-          {currentSectionKey === 'work' && (
-            <div className="floating-prop-icon" style={{ background: '#F59E0B', color: '#1A0F00', padding: '6px', borderRadius: '50%' }}>
-              <Code2 size={14} />
-            </div>
-          )}
-          {currentSectionKey === 'experience' && (
-            <div className="floating-prop-icon" style={{ background: '#1E1E1E', border: '1px solid #F59E0B', color: '#F59E0B', padding: '6px', borderRadius: '50%' }}>
-              <Award size={14} />
-            </div>
-          )}
-          {currentSectionKey === 'certifications' && (
-            <div className="floating-prop-icon" style={{ background: '#1E1E1E', border: '1px solid #F59E0B', color: '#F59E0B', padding: '6px', borderRadius: '50%' }}>
-              <GraduationCap size={14} />
-            </div>
-          )}
-          {currentSectionKey === 'contact' && (
-            <div className="floating-prop-icon" style={{ background: '#F59E0B', color: '#1A0F00', padding: '6px', borderRadius: '50%' }}>
-              <Send size={14} />
-            </div>
-          )}
-          {currentSectionKey === 'footer' && (
-            <div className="floating-prop-icon" style={{ background: '#F59E0B', color: '#1A0F00', padding: '6px', borderRadius: '50%' }}>
-              🎉
-            </div>
-          )}
+        {/* Section Prop Badge Icon */}
+        <div style={{ position: 'absolute', top: '6px', right: '-8px', zIndex: 11 }}>
+          {activePoseKey === 'hero' && <div className="floating-prop-icon" style={{ background: '#F59E0B', color: '#1A0F00', padding: '6px', borderRadius: '50%' }}>👋</div>}
+          {activePoseKey === 'about' && <div className="floating-prop-icon" style={{ background: '#1E1E1E', border: '1px solid #F59E0B', color: '#F59E0B', padding: '6px', borderRadius: '50%' }}>💡</div>}
+          {activePoseKey === 'skills' && <div className="floating-prop-icon" style={{ background: '#1E1E1E', border: '1px solid #F59E0B', color: '#F59E0B', padding: '6px', borderRadius: '50%' }}><Laptop size={13} /></div>}
+          {activePoseKey === 'projects' && <div className="floating-prop-icon" style={{ background: '#F59E0B', color: '#1A0F00', padding: '6px', borderRadius: '50%' }}><Code2 size={13} /></div>}
+          {activePoseKey === 'experience' && <div className="floating-prop-icon" style={{ background: '#1E1E1E', border: '1px solid #F59E0B', color: '#F59E0B', padding: '6px', borderRadius: '50%' }}><Award size={13} /></div>}
+          {activePoseKey === 'education' && <div className="floating-prop-icon" style={{ background: '#1E1E1E', border: '1px solid #F59E0B', color: '#F59E0B', padding: '6px', borderRadius: '50%' }}><GraduationCap size={13} /></div>}
+          {activePoseKey === 'contact' && <div className="floating-prop-icon" style={{ background: '#F59E0B', color: '#1A0F00', padding: '6px', borderRadius: '50%' }}><Send size={13} /></div>}
+          {activePoseKey === 'thanks' && <div className="floating-prop-icon" style={{ background: '#F59E0B', color: '#1A0F00', padding: '6px', borderRadius: '50%' }}>🎉</div>}
         </div>
 
-        {/* Glowing Base Aura Ring */}
+        {/* Base Glow Aura */}
         <div
           style={{
             position: 'absolute',
@@ -378,27 +333,53 @@ export default function AvatarGuide({ hoverState, activeSectionOverride }) {
           }}
         />
 
-        {/* 3D Rendered Avatar Image */}
+        {/* Dual-Layer Crossfading Stage */}
         <div
+          className="avatar-stage"
           style={{
+            position: 'relative',
             width: '100%',
             height: '100%',
-            position: 'relative',
             filter: isHovered ? 'drop-shadow(0 0 16px rgba(245, 158, 11, 0.6))' : 'drop-shadow(0 10px 20px rgba(0,0,0,0.5))',
             transition: 'filter 0.3s ease',
           }}
         >
+          {/* Current Pose Layer */}
           <img
-            src="/sundar_3d_avatar.png"
-            alt="Sundar 3D Avatar Companion"
+            src={currentPoseSrc}
+            alt="Sundar Avatar Pose Current"
+            className={`avatar-pose-img pose-${activePoseKey}`}
             style={{
+              position: 'absolute',
+              inset: 0,
               width: '100%',
               height: '100%',
               objectFit: 'contain',
-              display: 'block',
-              animation: isReducedMotion ? 'none' : 'avatarIdleFloat 4s ease-in-out infinite',
+              opacity: isCrossfading ? 0 : 1,
+              transform: isCrossfading ? 'translateY(-6px)' : 'translateY(0px)',
+              transition: 'opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1), transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)',
+              animation: isReducedMotion ? 'none' : `idle-${activePoseKey} 4s ease-in-out infinite`,
             }}
           />
+
+          {/* Next Pose Layer (Fades in during crossfade) */}
+          {nextPoseSrc && (
+            <img
+              src={nextPoseSrc}
+              alt="Sundar Avatar Pose Next"
+              className="avatar-pose-img pose-incoming"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                opacity: isCrossfading ? 1 : 0,
+                transform: isCrossfading ? 'translateY(0px)' : 'translateY(8px)',
+                transition: 'opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1), transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)',
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@ const skillMeters = [
 
 export default function SkillMeterSection({ onSkillHover, onSkillLeave }) {
   return (
-    <section id="skills" style={{ background: '#0A0A0A', borderTop: '1px solid #2A2A2A' }}>
+    <section id="skills" data-avatar-pose="skills" style={{ background: '#0A0A0A', borderTop: '1px solid #2A2A2A' }}>
       <div className="section-wrap">
         <ScrollReveal animation="fade-down">
           <p className="section-label">Engineering Metrics</p>

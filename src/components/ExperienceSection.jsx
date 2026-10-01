@@ -22,7 +22,7 @@ const experiences = [
 
 export default function ExperienceSection({ onExperienceHover, onExperienceLeave }) {
   return (
-    <section id="experience">
+    <section id="experience" data-avatar-pose="experience">
       <div className="section-wrap">
         <ScrollReveal animation="fade-down">
           <p className="section-label">Career History</p>

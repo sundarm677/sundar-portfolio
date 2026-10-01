@@ -460,12 +460,48 @@ input::placeholder, textarea::placeholder {
 
 /* ── Interactive Avatar Companion Guide ── */
 @keyframes avatarIdleFloat {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-5px); }
+}
+
+@keyframes idle-hero {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-6px) rotate(0.8deg); }
+}
+
+@keyframes idle-about {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-3px) rotate(-1.5deg); }
+}
+
+@keyframes idle-skills {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-4px) rotate(1deg); }
+}
+
+@keyframes idle-projects {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%      { transform: translateY(-5px) scale(1.02); }
+}
+
+@keyframes idle-experience {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-3px) rotate(1deg); }
+}
+
+@keyframes idle-education {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-4px) rotate(-1deg); }
+}
+
+@keyframes idle-contact {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-5px) rotate(1.5deg); }
+}
+
+@keyframes idle-thanks {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%      { transform: translateY(-8px) scale(1.04); }
 }
 
 @keyframes bubblePulse {
@@ -506,5 +542,6 @@ input::placeholder, textarea::placeholder {
     padding: 8px 12px !important;
   }
 }
+
 
 

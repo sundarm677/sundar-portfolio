@@ -13,7 +13,7 @@ const skillsByCategory = [
 
 export default function AboutSection() {
   return (
-    <section id="about" style={{ background: '#151515' }}>
+    <section id="about" data-avatar-pose="about" style={{ background: '#151515' }}>
       <div className="section-wrap">
 
         <div style={{ display: 'grid', gap: '60px', alignItems: 'start' }} className="about-grid">
