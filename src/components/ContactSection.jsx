@@ -33,18 +33,18 @@ export default function ContactSection({ onOpenResume, onContactHover, onContact
   };
 
   return (
-    <footer id="contact" data-avatar-pose="contact" style={{ background: '#151515', borderTop: '1px solid #2A2A2A', position: 'relative' }}>
+    <footer id="contact" data-avatar-pose="contact" style={{ background: '#121212', borderTop: '1px solid rgba(255, 255, 255, 0.08)', position: 'relative' }}>
       <Toast message={toastMsg} />
 
-      <div className="section-wrap">
+      <div className="container">
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <p className="section-label" style={{ textAlign: 'center', marginBottom: '12px' }}>Get In Touch</p>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 52px)', color: '#FFFFFF', marginBottom: '14px' }}>
+          <h2 style={{ fontSize: 'clamp(32px, 3.5vw, 48px)', color: '#FFFFFF', marginBottom: '14px', fontFamily: 'var(--font-sora)' }}>
             Let's build something<br /><span className="underline-highlight">great together</span>
           </h2>
-          <p style={{ fontFamily: 'Inter', fontSize: '15px', color: '#CCCCCC', maxWidth: '620px', margin: '0 auto', lineHeight: 1.7 }}>
+          <p style={{ fontFamily: 'var(--font-inter)', fontSize: '15px', color: '#CCCCCC', maxWidth: '620px', margin: '0 auto', lineHeight: 1.7 }}>
             Computer Science Engineering graduate (2026) looking for an entry-level developer role, ideally on the Java side. Feel free to reach out!
           </p>
         </div>
@@ -53,8 +53,8 @@ export default function ContactSection({ onOpenResume, onContactHover, onContact
         <div style={{ display: 'grid', gap: '40px', marginBottom: '60px' }} className="contact-grid">
 
           {/* Contact Form */}
-          <div className="sage-card" style={{ background: '#1E1E1E', border: '1px solid #2A2A2A' }}>
-            <h3 style={{ fontFamily: 'Sora', fontWeight: '700', fontSize: '18px', color: '#FFFFFF', marginBottom: '20px' }}>Send a Message</h3>
+          <div className="sage-card" style={{ background: 'rgba(255, 255, 255, 0.03)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px', padding: '28px' }}>
+            <h3 style={{ fontFamily: 'var(--font-sora)', fontWeight: '700', fontSize: '18px', color: '#FFFFFF', marginBottom: '20px' }}>Send a Message</h3>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'grid', gap: '12px' }} className="form-row">
                 <input required placeholder="Your Name *" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
@@ -63,12 +63,12 @@ export default function ContactSection({ onOpenResume, onContactHover, onContact
               <textarea required rows={4} placeholder="Your Message *" value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} style={{ resize: 'vertical' }} />
 
               {sent && (
-                <div style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid #444444', borderRadius: '10px', padding: '10px 14px', fontFamily: 'Inter', fontSize: '13px', fontWeight: '500', color: '#FFFFFF' }}>
+                <div style={{ background: 'rgba(245, 158, 11, 0.1)', border: '1px solid #F59E0B', borderRadius: '10px', padding: '10px 14px', fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: '500', color: '#FFFFFF' }}>
                   ✓ Message sent! Thank you for reaching out.
                 </div>
               )}
 
-              <button type="submit" className="btn-white" style={{ alignSelf: 'flex-start' }}>
+              <button type="submit" className="btn-amber" style={{ alignSelf: 'flex-start', marginTop: '8px' }}>
                 <Send size={14} /> Send Message
               </button>
             </form>
@@ -76,8 +76,8 @@ export default function ContactSection({ onOpenResume, onContactHover, onContact
 
           {/* Contact Details */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div className="sage-card" style={{ background: '#1E1E1E', border: '1px solid #2A2A2A' }}>
-              <h3 style={{ fontFamily: 'Sora', fontWeight: '700', fontSize: '16px', color: '#FFFFFF', marginBottom: '16px' }}>Contact Details</h3>
+            <div className="sage-card" style={{ background: 'rgba(255, 255, 255, 0.03)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px', padding: '28px' }}>
+              <h3 style={{ fontFamily: 'var(--font-sora)', fontWeight: '700', fontSize: '16px', color: '#FFFFFF', marginBottom: '16px' }}>Contact Details</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 {/* Location */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -85,8 +85,8 @@ export default function ContactSection({ onOpenResume, onContactHover, onContact
                     <MapPin size={15} color="#F59E0B" />
                   </div>
                   <div>
-                    <p style={{ fontFamily: 'Inter', fontSize: '11px', fontWeight: '500', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Location</p>
-                    <p style={{ fontFamily: 'Inter', fontSize: '14px', fontWeight: '500', color: '#FFFFFF' }}>India</p>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: '500', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Location</p>
+                    <p style={{ fontFamily: 'var(--font-inter)', fontSize: '14px', fontWeight: '500', color: '#FFFFFF' }}>India</p>
                   </div>
                 </div>
 
@@ -96,8 +96,8 @@ export default function ContactSection({ onOpenResume, onContactHover, onContact
                     <Phone size={15} color="#F59E0B" />
                   </div>
                   <div>
-                    <p style={{ fontFamily: 'Inter', fontSize: '11px', fontWeight: '500', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Phone</p>
-                    <a href="tel:+919360346758" style={{ fontFamily: 'Inter', fontSize: '14px', fontWeight: '500', color: '#FFFFFF', textDecoration: 'none' }}>+91-9360346758</a>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: '500', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Phone</p>
+                    <a href="tel:+919360346758" style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: '500', color: '#FFFFFF', textDecoration: 'none' }}>+91-9360346758</a>
                   </div>
                 </div>
 
@@ -111,10 +111,10 @@ export default function ContactSection({ onOpenResume, onContactHover, onContact
                     <Mail size={15} color="#F59E0B" />
                   </div>
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontFamily: 'Inter', fontSize: '11px', fontWeight: '500', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Email</p>
-                    <a href="mailto:msundar677@gmail.com" style={{ fontFamily: 'Inter', fontSize: '14px', fontWeight: '500', color: '#FFFFFF', textDecoration: 'none' }}>msundar677@gmail.com</a>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: '500', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Email</p>
+                    <a href="mailto:msundar677@gmail.com" style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: '500', color: '#FFFFFF', textDecoration: 'none' }}>msundar677@gmail.com</a>
                   </div>
-                  <button onClick={handleCopy} style={{ background: 'transparent', border: '1px solid #2A2A2A', borderRadius: '8px', padding: '6px', color: copied ? '#F59E0B' : '#666666', cursor: 'pointer' }}>
+                  <button onClick={handleCopy} style={{ background: 'transparent', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '8px', padding: '6px', color: copied ? '#F59E0B' : '#666666', cursor: 'pointer' }}>
                     {copied ? <Check size={13} color="#F59E0B" /> : <Copy size={13} />}
                   </button>
                 </div>
@@ -122,28 +122,28 @@ export default function ContactSection({ onOpenResume, onContactHover, onContact
             </div>
 
             {/* Social Links */}
-            <div className="sage-card" style={{ background: '#1E1E1E', border: '1px solid #2A2A2A', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <div className="sage-card" style={{ background: 'rgba(255, 255, 255, 0.03)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px', padding: '20px', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <a href="https://github.com/sundarm677" target="_blank" rel="noopener noreferrer"
-                style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'Inter', fontSize: '13px', fontWeight: '500', color: '#CCCCCC', textDecoration: 'none', flex: 1, minWidth: '120px', padding: '10px', borderRadius: '10px', background: '#151515', border: '1px solid #2A2A2A', transition: 'all 0.2s' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: '500', color: '#CCCCCC', textDecoration: 'none', flex: 1, minWidth: '120px', padding: '10px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', transition: 'all 0.2s' }}
                 onMouseEnter={e => {
                   e.currentTarget.style.borderColor = '#F59E0B'; e.currentTarget.style.color = '#F59E0B';
                   if (onContactHover) onContactHover('github');
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#CCCCCC';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)'; e.currentTarget.style.color = '#CCCCCC';
                   if (onContactLeave) onContactLeave();
                 }}
               >
                 <GithubIcon style={{ width: '18px', height: '18px', flexShrink: 0 }} /> GitHub
               </a>
               <a href="https://www.linkedin.com/in/sundar-2k5" target="_blank" rel="noopener noreferrer"
-                style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'Inter', fontSize: '13px', fontWeight: '500', color: '#CCCCCC', textDecoration: 'none', flex: 1, minWidth: '120px', padding: '10px', borderRadius: '10px', background: '#151515', border: '1px solid #2A2A2A', transition: 'all 0.2s' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: '500', color: '#CCCCCC', textDecoration: 'none', flex: 1, minWidth: '120px', padding: '10px', borderRadius: '10px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.08)', transition: 'all 0.2s' }}
                 onMouseEnter={e => {
                   e.currentTarget.style.borderColor = '#F59E0B'; e.currentTarget.style.color = '#F59E0B';
                   if (onContactHover) onContactHover('linkedin');
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#CCCCCC';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)'; e.currentTarget.style.color = '#CCCCCC';
                   if (onContactLeave) onContactLeave();
                 }}
               >
@@ -154,17 +154,17 @@ export default function ContactSection({ onOpenResume, onContactHover, onContact
         </div>
 
         {/* Footer Bar */}
-        <div style={{ borderTop: '1px solid #2A2A2A', paddingTop: '24px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
-          <p style={{ fontFamily: 'Inter', fontSize: '13px', color: '#666666' }}>
+        <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '24px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: '#666666' }}>
             © {new Date().getFullYear()} Sundar M · India
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <button onClick={onOpenResume} className="btn-ghost" style={{ padding: '8px 18px', fontSize: '13px' }}>View Resume</button>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'transparent', border: '1px solid #2A2A2A', color: '#CCCCCC', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}
+              style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'transparent', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#CCCCCC', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = '#F59E0B'; e.currentTarget.style.color = '#F59E0B'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#2A2A2A'; e.currentTarget.style.color = '#CCCCCC'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'; e.currentTarget.style.color = '#CCCCCC'; }}
             >
               <ArrowUp size={16} />
             </button>

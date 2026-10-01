@@ -1,24 +1,35 @@
 :root {
-  --bg-page:       #0A0A0A;
-  --bg-surface:    #151515;
-  --bg-card:       #1E1E1E;
+  --bg-dark:       #080808;
+  --bg-page:       #080808;
+  --bg-surface:    #121212;
+  --bg-card:       rgba(255, 255, 255, 0.04);
+  --bg-card-solid: #181818;
+  --text-white:    #FFFFFF;
   --text-primary:  #FFFFFF;
   --text-secondary:#CCCCCC;
   --text-muted:    #999999;
   --text-faded:    #666666;
-  --border:        #2A2A2A;
-  --border-hover:  #444444;
+  --border:        rgba(255, 255, 255, 0.08);
+  --border-solid:  #2A2A2A;
+  --border-hover:  rgba(245, 158, 11, 0.4);
 
+  --accent-amber:  #F59E0B;
+  --accent-cyan:   #00E5FF;
   --accent:        #F59E0B;
   --accent-hover:  #FBBF24;
   --accent-dark:   #D97706;
   --text-on-accent:#1A0F00;
   --accent-glow:   rgba(245, 158, 11, 0.15);
 
+  --font-bebas:    'Bebas Neue', sans-serif;
+  --font-oxanium:  'Oxanium', sans-serif;
+  --font-mono:     'JetBrains Mono', monospace;
+  --font-sora:     'Sora', sans-serif;
+  --font-inter:    'Inter', sans-serif;
+
   --radius-card:   16px;
   --radius-pill:   999px;
   --padding-card:  24px;
-  --space-section: 80px;
 }
 
 *, *::before, *::after {
@@ -33,13 +44,13 @@ html {
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
-  font-size: 17px;
+  font-size: 16px;
 }
 
 body {
-  background-color: var(--bg-page);
+  background-color: var(--bg-dark);
   color: var(--text-primary);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -47,7 +58,6 @@ body {
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
-  zoom: 1.08;
 }
 
 /* ── Custom Scrollbar ── */
@@ -55,7 +65,7 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #080808;
 }
 ::-webkit-scrollbar-thumb {
   background: #2A2A2A;
@@ -71,17 +81,23 @@ body {
   top: 0;
   left: 0;
   height: 3px;
-  background: linear-gradient(90deg, #D97706, #F59E0B);
+  background: linear-gradient(90deg, #00E5FF, #F59E0B);
   z-index: 1000;
   transition: width 0.1s ease-out;
 }
 
 /* ── Typography Helpers ── */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Sora', 'Poppins', sans-serif;
+  font-family: var(--font-sora), sans-serif;
   color: var(--text-primary);
   letter-spacing: -0.02em;
 }
+
+.font-bebas { font-family: var(--font-bebas); }
+.font-oxanium { font-family: var(--font-oxanium); }
+.font-mono { font-family: var(--font-mono); }
+.font-sora { font-family: var(--font-sora); }
+.font-inter { font-family: var(--font-inter); }
 
 /* Underline decoration highlight */
 .underline-highlight {
@@ -92,20 +108,46 @@ h1, h2, h3, h4, h5, h6 {
   text-underline-offset: 6px;
 }
 
-/* ── Section Layout ── */
+/* ── Responsive Container & Section Padding Rules ── */
 section {
-  padding: clamp(48px, 8vw, 80px) clamp(16px, 4vw, 48px);
-}
-
-.section-wrap {
-  max-width: min(92vw, 1500px);
-  margin: 0 auto;
+  padding: 120px 0;
   width: 100%;
 }
 
+.container, .section-wrap {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+@media (min-width: 1024px) and (max-width: 1200px) {
+  .container, .section-wrap {
+    padding: 0 32px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  section {
+    padding: 90px 0;
+  }
+  .container, .section-wrap {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  section {
+    padding: 70px 0;
+  }
+  .container, .section-wrap {
+    padding: 0 18px;
+  }
+}
+
 .section-label {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
+  font-family: var(--font-mono);
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;

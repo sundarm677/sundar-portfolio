@@ -22,11 +22,11 @@ const experiences = [
 
 export default function ExperienceSection({ onExperienceHover, onExperienceLeave }) {
   return (
-    <section id="experience" data-avatar-pose="experience">
-      <div className="section-wrap">
+    <section id="experience" data-avatar-pose="experience" style={{ background: '#121212', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+      <div className="container">
         <ScrollReveal animation="fade-down">
           <p className="section-label">Career History</p>
-          <h2 style={{ fontSize: 'clamp(28px, 3vw, 44px)', color: '#FFFFFF', marginBottom: '48px' }}>Work Experience &amp; Internships</h2>
+          <h2 style={{ fontSize: 'clamp(32px, 3.5vw, 48px)', color: '#FFFFFF', marginBottom: '48px', fontFamily: 'var(--font-sora)' }}>Work Experience &amp; Internships</h2>
         </ScrollReveal>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -36,7 +36,7 @@ export default function ExperienceSection({ onExperienceHover, onExperienceLeave
               <ScrollReveal key={i} animation="fade-up" delay={150 * (i + 1)}>
                 <div
                   className="surface-card"
-                  style={{ background: '#1E1E1E', border: '1px solid #2A2A2A', borderLeft: '3px solid #F59E0B', display: 'grid', gap: '32px', transition: 'transform 0.25s ease, border-color 0.25s ease' }}
+                  style={{ background: 'rgba(255, 255, 255, 0.03)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.08)', borderLeft: '3px solid #F59E0B', padding: '28px', transition: 'transform 0.25s ease, border-color 0.25s ease' }}
                   onMouseEnter={e => {
                     e.currentTarget.style.transform = 'translateY(-3px)';
                     e.currentTarget.style.borderColor = '#F59E0B';
@@ -44,22 +44,22 @@ export default function ExperienceSection({ onExperienceHover, onExperienceLeave
                   }}
                   onMouseLeave={e => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.borderColor = '#2A2A2A';
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
                     if (onExperienceLeave) onExperienceLeave();
                   }}
                 >
                 <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '32px', alignItems: 'start' }} className="exp-inner">
                   {/* Left: Org & Period */}
                   <div style={{ minWidth: '200px' }}>
-                    <h3 style={{ fontFamily: 'Sora', fontWeight: '700', fontSize: '16px', color: '#FFFFFF', marginBottom: '4px' }}>{exp.org}</h3>
-                    <p style={{ fontFamily: 'Inter', fontSize: '13px', color: '#666666', marginBottom: '8px' }}>{exp.period}</p>
+                    <h3 style={{ fontFamily: 'var(--font-sora)', fontWeight: '700', fontSize: '16px', color: '#FFFFFF', marginBottom: '4px' }}>{exp.org}</h3>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: '#666666', marginBottom: '8px' }}>{exp.period}</p>
                     <span className="pill-badge" style={{ background: '#F59E0B', color: '#1A0F00', fontWeight: '800' }}>{exp.badge}</span>
                   </div>
 
                   {/* Right: Role, Desc, Skills */}
                   <div>
-                    <h4 style={{ fontFamily: 'Sora', fontWeight: '700', fontSize: '18px', color: '#FFFFFF', marginBottom: '8px' }}>{exp.role} — {exp.org}</h4>
-                    <p style={{ fontFamily: 'Inter', fontSize: '14px', color: '#999999', lineHeight: 1.75, marginBottom: '16px' }}>{exp.desc}</p>
+                    <h4 style={{ fontFamily: 'var(--font-sora)', fontWeight: '700', fontSize: '18px', color: '#FFFFFF', marginBottom: '8px' }}>{exp.role} — {exp.org}</h4>
+                    <p style={{ fontFamily: 'var(--font-inter)', fontSize: '14px', color: '#999999', lineHeight: 1.75, marginBottom: '16px' }}>{exp.desc}</p>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                       {exp.skills.map(s => <span key={s} className="pill-mono-tag">{s}</span>)}
                     </div>

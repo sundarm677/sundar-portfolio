@@ -81,15 +81,15 @@ export default function WorkSection({ onProjectHover, onProjectLeave }) {
   };
 
   return (
-    <section id="work" data-avatar-pose="projects">
-      <div className="section-wrap">
+    <section id="work" data-avatar-pose="projects" style={{ background: '#080808', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+      <div className="container">
 
         {/* Header */}
         <ScrollReveal animation="fade-down">
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px', marginBottom: '32px' }}>
             <div>
               <p className="section-label">Featured Projects</p>
-              <h2 style={{ fontSize: 'clamp(32px, 4vw, 52px)', color: '#FFFFFF' }}>Projects &amp; Systems</h2>
+              <h2 style={{ fontSize: 'clamp(32px, 3.5vw, 48px)', color: '#FFFFFF', fontFamily: 'var(--font-sora)' }}>Projects &amp; Systems</h2>
             </div>
             <a href="https://github.com/sundarm677" target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ padding: '10px 20px', fontSize: '13px' }}>
               View All on GitHub <ChevronRight size={14} />
@@ -100,7 +100,7 @@ export default function WorkSection({ onProjectHover, onProjectLeave }) {
         {/* JS Filter Bar */}
         <ScrollReveal animation="fade-up" delay={100}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '36px', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#666666', fontSize: '12px', fontWeight: '600', marginRight: '8px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#666666', fontSize: '12px', fontWeight: '600', marginRight: '8px', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)' }}>
               <Filter size={12} /> Filter:
             </div>
             {[
@@ -118,7 +118,7 @@ export default function WorkSection({ onProjectHover, onProjectLeave }) {
                   fontSize: '12px',
                   background: filter === f.key ? '#F59E0B' : 'transparent',
                   color: filter === f.key ? '#1A0F00' : '#CCCCCC',
-                  borderColor: filter === f.key ? '#F59E0B' : '#2A2A2A',
+                  borderColor: filter === f.key ? '#F59E0B' : 'rgba(255, 255, 255, 0.1)',
                   fontWeight: filter === f.key ? '700' : '500',
                 }}
               >
@@ -138,22 +138,22 @@ export default function WorkSection({ onProjectHover, onProjectLeave }) {
                     className="surface-card hover-lift"
                     onMouseEnter={() => onProjectHover && onProjectHover(p)}
                     onMouseLeave={() => onProjectLeave && onProjectLeave()}
-                    style={{ background: '#1E1E1E', border: '1px solid #2A2A2A', display: 'grid', gap: '32px', alignItems: 'start', cursor: 'default' }}
+                    style={{ background: 'rgba(255, 255, 255, 0.03)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.08)', display: 'grid', gap: '32px', alignItems: 'start', cursor: 'default', minHeight: '360px', padding: '32px' }}
                   >
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '24px', alignItems: 'start' }} className="proj-inner">
                     <div>
                       {/* Meta */}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
                         <span className="pill-mono-tag">{p.category}</span>
-                        <span style={{ fontFamily: 'Inter', fontSize: '12px', color: '#666666', fontWeight: '500' }}>{p.year}</span>
-                        <span style={{ fontFamily: 'Inter', fontSize: '12px', fontWeight: '600', color: '#F59E0B' }}>· {p.metric}</span>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: '#666666', fontWeight: '500' }}>{p.year}</span>
+                        <span style={{ fontFamily: 'var(--font-inter)', fontSize: '12px', fontWeight: '600', color: '#F59E0B' }}>· {p.metric}</span>
                       </div>
 
                       {/* Title */}
-                      <h3 style={{ fontFamily: 'Sora', fontWeight: '700', fontSize: '24px', color: '#FFFFFF', marginBottom: '12px' }}>{p.title}</h3>
+                      <h3 style={{ fontFamily: 'var(--font-sora)', fontWeight: '700', fontSize: '24px', color: '#FFFFFF', marginBottom: '12px' }}>{p.title}</h3>
 
                       {/* Desc */}
-                      <p style={{ fontFamily: 'Inter', fontSize: '14px', color: '#999999', lineHeight: 1.75, maxWidth: '680px', marginBottom: '18px' }}>{p.desc}</p>
+                      <p style={{ fontFamily: 'var(--font-inter)', fontSize: '14px', color: '#999999', lineHeight: 1.75, maxWidth: '680px', marginBottom: '18px' }}>{p.desc}</p>
 
                       {/* Tags */}
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '22px' }}>
@@ -178,7 +178,7 @@ export default function WorkSection({ onProjectHover, onProjectLeave }) {
                     </div>
 
                     {/* Index Number */}
-                    <span style={{ fontFamily: 'Sora', fontWeight: '800', fontSize: '80px', color: 'rgba(245,158,11,0.08)', lineHeight: 1, userSelect: 'none' }}>
+                    <span style={{ fontFamily: 'var(--font-bebas)', fontWeight: '800', fontSize: '90px', color: 'rgba(245, 158, 11, 0.08)', lineHeight: 1, userSelect: 'none' }}>
                       {String(i + 1).padStart(2, '0')}
                     </span>
                   </div>

@@ -7,6 +7,7 @@ export default function Navbar({ onOpenResume }) {
   const links = [
     { name: 'Work',           href: '#work' },
     { name: 'About',          href: '#about' },
+    { name: 'Skills',         href: '#skills' },
     { name: 'Experience',     href: '#experience' },
     { name: 'Certifications', href: '#certifications' },
     { name: 'Contact',        href: '#contact' },
@@ -14,26 +15,26 @@ export default function Navbar({ onOpenResume }) {
 
   return (
     <header className="navbar">
-      <div style={{ maxWidth: 'min(92vw, 1500px)', margin: '0 auto', padding: '0 clamp(24px, 4vw, 48px)', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className="container nav-inner">
 
-        {/* Logo: Sundar.dev (with S container in #F59E0B and S letter in #1A0F00) */}
+        {/* Logo: Sundar.dev */}
         <a
           href="#hero"
           style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}
         >
-          <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#F59E0B', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Sora', fontWeight: '800', fontSize: '16px', color: '#1A0F00' }}>S</div>
-          <span style={{ fontFamily: 'Sora', fontWeight: '800', fontSize: '18px', color: '#FFFFFF' }}>
+          <div style={{ width: '34px', height: '34px', borderRadius: '10px', background: '#F59E0B', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-oxanium)', fontWeight: '800', fontSize: '18px', color: '#1A0F00', boxShadow: '0 0 15px rgba(245, 158, 11, 0.4)' }}>S</div>
+          <span style={{ fontFamily: 'var(--font-sora)', fontWeight: '800', fontSize: '19px', color: '#FFFFFF', letterSpacing: '-0.02em' }}>
             Sundar<span style={{ color: '#F59E0B' }}>.dev</span>
           </span>
         </a>
 
         {/* Desktop Nav */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '4px', background: '#151515', border: '1px solid #2A2A2A', borderRadius: '999px', padding: '5px 8px' }} className="desktop-nav">
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '999px', padding: '6px 10px', backdropFilter: 'blur(12px)' }} className="desktop-nav">
           {links.map(l => (
             <a
               key={l.name}
               href={l.href}
-              style={{ fontFamily: 'Inter', fontWeight: '500', fontSize: '13px', color: '#CCCCCC', padding: '6px 16px', borderRadius: '999px', textDecoration: 'none', transition: 'all 0.2s ease' }}
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: '500', fontSize: '13px', color: '#CCCCCC', padding: '7px 16px', borderRadius: '999px', textDecoration: 'none', transition: 'all 0.2s ease' }}
               onMouseEnter={e => { e.target.style.color = '#F59E0B'; e.target.style.background = 'rgba(245,158,11,0.12)'; }}
               onMouseLeave={e => { e.target.style.color = '#CCCCCC'; e.target.style.background = 'transparent'; }}
             >
@@ -44,16 +45,16 @@ export default function Navbar({ onOpenResume }) {
 
         {/* Right Side: Phone + Resume Button */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <a href="tel:+919360346758" style={{ fontFamily: 'Inter', fontWeight: '500', fontSize: '13px', color: '#999999', textDecoration: 'none', display: 'none' }} className="phone-link">
+          <a href="tel:+919360346758" style={{ fontFamily: 'var(--font-mono)', fontWeight: '500', fontSize: '12px', color: '#999999', textDecoration: 'none', display: 'none', letterSpacing: '0.04em' }} className="phone-link">
             +91-9360346758
           </a>
 
-          <button onClick={onOpenResume} className="btn-white" style={{ padding: '9px 20px', fontSize: '13px', minHeight: '40px' }}>
+          <button onClick={onOpenResume} className="btn-amber" style={{ padding: '9px 20px', fontSize: '13px', minHeight: '40px' }}>
             Resume <ArrowRight size={14} />
           </button>
           <button
             onClick={() => setOpen(!open)}
-            style={{ background: 'transparent', border: '1px solid #2A2A2A', borderRadius: '10px', width: '44px', height: '44px', color: '#FFFFFF', cursor: 'pointer', display: 'none', alignItems: 'center', justifyContent: 'center' }}
+            style={{ background: 'transparent', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: '10px', width: '44px', height: '44px', color: '#FFFFFF', cursor: 'pointer', display: 'none', alignItems: 'center', justifyContent: 'center' }}
             className="mobile-menu-btn"
             aria-label="Toggle Navigation Menu"
           >
@@ -64,30 +65,48 @@ export default function Navbar({ onOpenResume }) {
 
       {/* Mobile Drawer */}
       {open && (
-        <div style={{ background: '#151515', borderTop: '1px solid #2A2A2A', padding: '16px 24px', position: 'relative', zIndex: 60 }}>
+        <div style={{ background: '#121212', borderTop: '1px solid rgba(255, 255, 255, 0.08)', padding: '20px 24px', position: 'relative', zIndex: 60 }}>
           {links.map(l => (
             <a
               key={l.name}
               href={l.href}
               onClick={() => setOpen(false)}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', minHeight: '48px', fontFamily: 'Inter', fontWeight: '500', fontSize: '15px', color: '#FFFFFF', textDecoration: 'none', borderBottom: '1px solid #2A2A2A' }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', minHeight: '48px', fontFamily: 'var(--font-inter)', fontWeight: '500', fontSize: '15px', color: '#FFFFFF', textDecoration: 'none', borderBottom: '1px solid rgba(255, 255, 255, 0.06)' }}
             >
-              {l.name} <ArrowRight size={16} color="#CCCCCC" />
+              {l.name} <ArrowRight size={16} color="#F59E0B" />
             </a>
           ))}
-          <a href="tel:+919360346758" style={{ display: 'flex', alignItems: 'center', minHeight: '48px', marginTop: '8px', fontFamily: 'Inter', fontSize: '14px', color: '#CCCCCC', textDecoration: 'none' }}>
+          <a href="tel:+919360346758" style={{ display: 'flex', alignItems: 'center', minHeight: '48px', marginTop: '12px', fontFamily: 'var(--font-mono)', fontSize: '13px', color: '#CCCCCC', textDecoration: 'none' }}>
             +91-9360346758
           </a>
         </div>
       )}
 
       <style>{`
+        .navbar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 100;
+          background: rgba(8, 8, 8, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .nav-inner {
+          height: 72px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
         @media (min-width: 768px) {
           .desktop-nav { display: flex !important; }
           .phone-link  { display: block !important; }
           .mobile-menu-btn { display: none !important; }
         }
         @media (max-width: 767px) {
+          .nav-inner { height: 64px; }
           .desktop-nav { display: none !important; }
           .mobile-menu-btn { display: flex !important; }
         }

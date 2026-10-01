@@ -56,11 +56,11 @@ export default function CertificationsSection() {
   };
 
   return (
-    <section id="certifications" data-avatar-pose="education" style={{ background: '#151515' }}>
-      <div className="section-wrap">
+    <section id="certifications" data-avatar-pose="education" style={{ background: '#080808', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+      <div className="container">
         <p className="section-label">Academic Foundations</p>
-        <h2 style={{ fontSize: 'clamp(28px, 3vw, 44px)', color: '#FFFFFF', marginBottom: '12px' }}>Relevant Coursework</h2>
-        <p style={{ fontFamily: 'Inter', fontSize: '13px', color: '#999999', marginBottom: '40px' }}>
+        <h2 style={{ fontSize: 'clamp(32px, 3.5vw, 48px)', color: '#FFFFFF', marginBottom: '12px', fontFamily: 'var(--font-sora)' }}>Relevant Coursework</h2>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: '#999999', marginBottom: '40px' }}>
           ✦ Click any coursework card to flip it and view module details &amp; course topics.
         </p>
 
@@ -71,7 +71,7 @@ export default function CertificationsSection() {
               <div
                 key={cert.id}
                 className="perspective-1000"
-                style={{ minHeight: '240px', height: '100%', cursor: 'pointer' }}
+                style={{ minHeight: '260px', height: '100%', cursor: 'pointer' }}
                 onClick={() => toggleFlip(cert.id)}
               >
                 <div
@@ -90,8 +90,10 @@ export default function CertificationsSection() {
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      background: '#1E1E1E',
-                      border: '1px solid #2A2A2A',
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      backdropFilter: 'blur(12px)',
+                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      padding: '24px',
                       display: 'flex',
                       gap: '20px',
                       alignItems: 'flex-start',
@@ -103,19 +105,19 @@ export default function CertificationsSection() {
 
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '6px' }}>
-                        <h3 style={{ fontFamily: 'Sora', fontWeight: '700', fontSize: '17px', color: '#FFFFFF' }}>{cert.title}</h3>
+                        <h3 style={{ fontFamily: 'var(--font-sora)', fontWeight: '700', fontSize: '17px', color: '#FFFFFF' }}>{cert.title}</h3>
                         <span className="pill-badge" style={{ background: '#F59E0B', color: '#1A0F00', fontWeight: '800' }}>✓ VERIFIED</span>
                       </div>
-                      <p style={{ fontFamily: 'Inter', fontSize: '13px', fontWeight: '500', color: '#CCCCCC', marginBottom: '6px' }}>
+                      <p style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: '500', color: '#CCCCCC', marginBottom: '6px' }}>
                         {cert.issuer} ({cert.year})
                       </p>
-                      <p style={{ fontFamily: 'Inter', fontSize: '13px', color: '#999999', lineHeight: 1.6, marginBottom: '14px' }}>{cert.desc}</p>
+                      <p style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', color: '#999999', lineHeight: 1.6, marginBottom: '14px' }}>{cert.desc}</p>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                         {cert.skills.map(s => <span key={s} className="pill-mono-tag">✓ {s}</span>)}
                       </div>
                     </div>
 
-                    <div style={{ position: 'absolute', bottom: '12px', right: '16px', display: 'flex', alignItems: 'center', gap: '4px', color: '#F59E0B', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '600' }}>
+                    <div style={{ position: 'absolute', bottom: '12px', right: '16px', display: 'flex', alignItems: 'center', gap: '4px', color: '#F59E0B', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '600', fontFamily: 'var(--font-mono)' }}>
                       <RefreshCw size={10} /> Flip Card
                     </div>
                   </div>
@@ -126,34 +128,34 @@ export default function CertificationsSection() {
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      background: '#151515',
+                      background: '#121212',
                       border: '1px solid #F59E0B',
-                      padding: '20px',
+                      padding: '24px',
                       display: 'flex',
                       flexDirection: 'column',
                       justify: 'space-between',
                     }}
                   >
                     <div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', borderBottom: '1px solid #2A2A2A', paddingBottom: '8px' }}>
-                        <span style={{ fontFamily: 'Inter', fontSize: '11px', fontWeight: '700', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '8px' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: '700', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                           Credential Modules // {cert.title}
                         </span>
-                        <span style={{ fontFamily: 'monospace', fontSize: '11px', color: '#999999' }}>ID: {cert.credentialId}</span>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#999999' }}>ID: {cert.credentialId}</span>
                       </div>
 
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '10px' }}>
                         {cert.modules.map((mod, idx) => (
-                          <div key={idx} style={{ background: '#1E1E1E', border: '1px solid #2A2A2A', borderRadius: '8px', padding: '8px 12px', fontSize: '12px', color: '#CCCCCC', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <div key={idx} style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '8px', padding: '8px 12px', fontSize: '12px', color: '#CCCCCC', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-inter)' }}>
                             <CheckCircle size={12} color="#F59E0B" /> {mod}
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #2A2A2A', paddingTop: '10px' }}>
-                      <span style={{ fontFamily: 'Inter', fontSize: '11px', color: '#666666' }}>Issued by {cert.issuer} ({cert.year})</span>
-                      <span style={{ fontFamily: 'Inter', fontSize: '10px', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: '600' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '10px' }}>
+                      <span style={{ fontFamily: 'var(--font-inter)', fontSize: '11px', color: '#666666' }}>Issued by {cert.issuer} ({cert.year})</span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: '#F59E0B', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: '600' }}>
                         <RefreshCw size={10} /> Flip Back
                       </span>
                     </div>
