@@ -5,7 +5,21 @@ export default function CustomCursor() {
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  const [isTouchOrMobile, setIsTouchOrMobile] = useState(false);
+
   useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768 || 'ontouchstart' in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+      setIsTouchOrMobile(mobile);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isTouchOrMobile) return;
+
     const handleMouseMove = (e) => {
       setPos({ x: e.clientX, y: e.clientY });
       if (!isVisible) setIsVisible(true);
@@ -38,9 +52,9 @@ export default function CustomCursor() {
       window.removeEventListener('mouseover', handleMouseOver);
       document.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [isVisible]);
+  }, [isVisible, isTouchOrMobile]);
 
-  if (!isVisible) return null;
+  if (isTouchOrMobile || !isVisible) return null;
 
   return (
     <>

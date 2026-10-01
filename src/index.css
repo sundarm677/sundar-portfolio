@@ -607,8 +607,8 @@ input::placeholder, textarea::placeholder {
     pointer-events: none !important;
   }
 
-  .avatar-mascot img, .avatar-character-frame {
-    pointer-events: auto !important;
+  .avatar-mascot *, .avatar-character-frame, .avatar-speech {
+    pointer-events: none !important;
   }
 
   .avatar-speech, .avatar-speech-bubble {

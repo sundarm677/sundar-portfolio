@@ -104,22 +104,24 @@ export default function CertificationsSection() {
                       {cert.symbol}
                     </div>
 
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '6px' }}>
-                        <h3 style={{ fontFamily: 'var(--font-sora)', fontWeight: '700', fontSize: '17px', color: '#FFFFFF', lineHeight: 1.3 }}>{cert.title}</h3>
-                        <span className="pill-badge" style={{ background: '#F59E0B', color: '#1A0F00', fontWeight: '800' }}>✓ VERIFIED</span>
+                    <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+                      <div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '6px' }}>
+                          <h3 style={{ fontFamily: 'var(--font-sora)', fontWeight: '700', fontSize: '17px', color: '#FFFFFF', lineHeight: 1.3 }}>{cert.title}</h3>
+                          <span className="pill-badge" style={{ background: '#F59E0B', color: '#1A0F00', fontWeight: '800' }}>✓ VERIFIED</span>
+                        </div>
+                        <p style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: '500', color: '#CCCCCC', marginBottom: '6px' }}>
+                          {cert.issuer} ({cert.year})
+                        </p>
+                        <p style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', color: '#999999', lineHeight: 1.6, marginBottom: '14px' }}>{cert.desc}</p>
+                        <div className="tags-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                          {cert.skills.map(s => <span key={s} className="pill-mono-tag">✓ {s}</span>)}
+                        </div>
                       </div>
-                      <p style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', fontWeight: '500', color: '#CCCCCC', marginBottom: '6px' }}>
-                        {cert.issuer} ({cert.year})
-                      </p>
-                      <p style={{ fontFamily: 'var(--font-inter)', fontSize: '13px', color: '#999999', lineHeight: 1.6, marginBottom: '14px' }}>{cert.desc}</p>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {cert.skills.map(s => <span key={s} className="pill-mono-tag">✓ {s}</span>)}
-                      </div>
-                    </div>
 
-                    <div style={{ position: 'absolute', bottom: '12px', right: '16px', display: 'flex', alignItems: 'center', gap: '4px', color: '#F59E0B', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '600', fontFamily: 'var(--font-mono)' }}>
-                      <RefreshCw size={10} /> Flip Card
+                      <div className="flip-card-button" style={{ marginTop: '14px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '4px', color: '#F59E0B', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '600', fontFamily: 'var(--font-mono)' }}>
+                        <RefreshCw size={10} /> Flip Card
+                      </div>
                     </div>
                   </div>
 
@@ -178,9 +180,21 @@ export default function CertificationsSection() {
         @media (min-width: 768px) {
           .cert-grid { grid-template-columns: 1fr 1fr !important; }
         }
+        @media (max-width: 768px) {
+          .cert-card-front .tags-container {
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 10px !important;
+          }
+          .cert-card-front .flip-card-button {
+            justify-content: center !important;
+            width: 100% !important;
+            margin-top: 14px !important;
+          }
+        }
         @media (max-width: 640px) {
           .cert-card-container {
-            min-height: 340px !important;
+            min-height: 360px !important;
           }
           .cert-card-front {
             padding: 16px !important;
@@ -194,7 +208,7 @@ export default function CertificationsSection() {
         }
         @media (max-width: 400px) {
           .cert-card-container {
-            min-height: 380px !important;
+            min-height: 410px !important;
           }
         }
       `}</style>
